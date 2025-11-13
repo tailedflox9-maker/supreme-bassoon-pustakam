@@ -181,7 +181,7 @@ export function TopHeader({ settings, books, currentBookId, onModelChange, onOpe
               <ChevronDown size={14} className={`text-[var(--color-text-secondary)] transition-transform ${modelDropdownOpen ? 'rotate-180' : ''}`} />
             </button>
             {modelDropdownOpen && (
-              <div className="absolute top-full right-0 mt-2 w-[calc(100vw-2rem)] sm:w-80 bg-[var(--color-sidebar)] backdrop-blur-xl border border-[var(--color-border)] rounded-xl shadow-2xl z-50 max-h-[32rem] overflow-y-auto animate-fade-in-up model-dropdown">
+              <div className="absolute top-full right-0 mt-2 w-80 bg-[var(--color-sidebar)] backdrop-blur-xl border border-[var(--color-border)] rounded-xl shadow-2xl z-50 max-h-[32rem] overflow-y-auto animate-fade-in-up model-dropdown">
                 {(Object.entries(modelConfig) as [ModelProvider, any][]).map(([provider, config]) => (
                   <div key={provider} className="p-3 border-b border-[var(--color-border)] last:border-b-0">
                     <div className="flex items-center gap-2.5 px-2 py-2 text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wider">
@@ -196,7 +196,7 @@ export function TopHeader({ settings, books, currentBookId, onModelChange, onOpe
                             <div className="flex justify-between items-center">
                               <div>
                                 <div className={`text-sm font-medium ${isSelected ? 'text-blue-300' : 'text-[var(--color-text-primary)]'}`}>{model.name}</div>
-                                <div className="text-xs text-[var(--color-text-secondary)] mt-0.5 hidden sm:block">{model.description}</div>
+                                <div className="text-xs text-[var(--color-text-secondary)] mt-0.5">{model.description}</div>
                               </div>
                               {isSelected && <Check size={16} className="text-blue-400" />}
                             </div>
@@ -216,7 +216,7 @@ export function TopHeader({ settings, books, currentBookId, onModelChange, onOpe
               <BookOpen size={18} className="text-[var(--color-text-secondary)]" />
             </button>
             {libraryOpen && (
-              <div className="absolute top-full right-0 mt-2 w-[calc(100vw-2rem)] sm:w-80 bg-[var(--color-sidebar)] backdrop-blur-xl border border-[var(--color-border)] rounded-xl shadow-2xl z-50 animate-fade-in-up model-dropdown">
+              <div className="absolute top-full right-0 mt-2 w-80 bg-[var(--color-sidebar)] backdrop-blur-xl border border-[var(--color-border)] rounded-xl shadow-2xl z-50 animate-fade-in-up model-dropdown">
                 <div className="p-4 border-b border-[var(--color-border)]">
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-text-secondary)]" />
