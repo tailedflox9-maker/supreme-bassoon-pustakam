@@ -5,25 +5,49 @@ import { PlayCircle } from 'lucide-react';
 interface SimulationStep {
   id: number;
   target: string;
-  action: 'move' | 'click' | 'wait' | 'scroll';
+  action: 'move' | 'click' | 'type' | 'wait';
   duration?: number;
   description?: string;
-  scrollAmount?: number;
+  text?: string;
 }
 
-// 🎬 UPDATED DEMO SCRIPT - Over 1 Minute, Slow & Smooth Flow
+// 🎬 NEW COMPREHENSIVE DEMO SCRIPT - Over 90 seconds
 const DEMO_SCRIPT: SimulationStep[] = [
-  { id: 1, target: 'body', action: 'wait', duration: 2500, description: "Welcome to Pustakam AI! Let's see how it works." },
-  { id: 2, target: 'button[title="Library & Settings"]', action: 'move', duration: 3000, description: 'All your book projects are stored in the Library.' },
-  { id: 3, target: 'button[title="Library & Settings"]', action: 'click', duration: 1500, description: 'Opening the library...' },
-  { id: 4, target: '.model-dropdown .max-h-80 > div:first-child', action: 'move', duration: 3000, description: 'Let\'s open an existing project to continue our work.' },
-  { id: 5, target: '.model-dropdown .max-h-80 > div:first-child', action: 'click', duration: 1500, description: 'Loading the book details...' },
-  { id: 6, target: 'body', action: 'wait', duration: 2500, description: 'This book is ready for its content to be generated.' },
-  { id: 7, target: 'button:has-text("Generate All Modules"), button:has-text("Resume Generation")', action: 'move', duration: 3000, description: 'We\'ll instruct the AI to write all the chapters.' },
-  { id: 8, target: 'button:has-text("Generate All Modules"), button:has-text("Resume Generation")', action: 'click', duration: 1500, description: 'Starting the AI writing process...' },
-  { id: 9, target: 'body', action: 'wait', duration: 8000, description: 'The AI is now writing the book, with live progress updates.' },
-  { id: 10, target: 'body', action: 'wait', duration: 6000, description: 'You can pause, resume, or even switch AI models if needed.' },
-  { id: 11, target: 'body', action: 'wait', duration: 4000, description: 'The demo is complete. Thank you for watching! 🎉' },
+  // 1. Welcome & Create New Book
+  { id: 1, target: 'body', action: 'wait', duration: 2500, description: "Welcome to Pustakam AI! Let's create a new book from an idea." },
+  { id: 2, target: 'button:has-text("Create New Book")', action: 'move', duration: 3000, description: 'Everything starts with the "Create New Book" button.' },
+  { id: 3, target: 'button:has-text("Create New Book")', action: 'click', duration: 1500, description: 'Navigating to the creation screen...' },
+
+  // 2. Fill Form & Refine with AI
+  { id: 4, target: 'textarea#goal', action: 'move', duration: 2500, description: 'We start with a simple idea or a detailed goal.' },
+  { id: 5, target: 'textarea#goal', action: 'type', duration: 5000, text: 'A complete beginner\'s guide to Quantum Computing', description: 'Let\'s create a book about Quantum Computing.' },
+  { id: 6, target: 'button:has-text("Refine with AI")', action: 'move', duration: 3000, description: 'Now, we use AI to refine the concept and fill in the details.' },
+  { id: 7, target: 'button:has-text("Refine with AI")', action: 'click', duration: 1500, description: 'The AI will suggest an audience and complexity...' },
+  { id: 8, target: 'body', action: 'wait', duration: 4000, description: '...perfect. The details are auto-filled for us.' },
+
+  // 3. Generate Roadmap
+  { id: 9, target: 'button:has-text("Generate Book Roadmap")', action: 'move', duration: 3000, description: 'Next, the AI will generate a complete chapter-by-chapter roadmap.' },
+  { id: 10, target: 'button:has-text("Generate Book Roadmap")', action: 'click', duration: 1500, description: 'Generating the book\'s structure...' },
+  { id: 11, target: 'body', action: 'wait', duration: 8000, description: 'This step creates a detailed, modular learning path.' }, // Longer wait for AI
+
+  // 4. Switch AI Model
+  { id: 12, target: 'header button:has(svg[class*="lucide-chevron-down"])', action: 'move', duration: 3000, description: 'Before writing, we can switch the AI model for different results.' },
+  { id: 13, target: 'header button:has(svg[class*="lucide-chevron-down"])', action: 'click', duration: 1500, description: 'Opening the model selector...' },
+  { id: 14, target: 'div.model-dropdown button:has-text("Mistral Small")', action: 'move', duration: 3000, description: 'Let\'s switch from Google\'s Gemini to a Mistral model.' },
+  { id: 15, target: 'div.model-dropdown button:has-text("Mistral Small")', action: 'click', duration: 2000, description: 'Model switched successfully!' },
+
+  // 5. Generate Modules
+  { id: 16, target: 'button:has-text("Generate All Modules")', action: 'move', duration: 3000, description: 'Now, let\'s generate the actual content for the entire book.' },
+  { id: 17, target: 'button:has-text("Generate All Modules")', action: 'click', duration: 1500, description: 'The AI is now writing, chapter by chapter...' },
+  { id: 18, target: 'body', action: 'wait', duration: 10000, description: 'We get live progress, word counts, and even a stream of the content as it\'s written.' },
+
+  // 6. Show the new book in the Library
+  { id: 19, target: 'button[title="Library & Settings"]', action: 'move', duration: 3000, description: 'Even if we navigate away, our progress is saved.' },
+  { id: 20, target: 'button[title="Library & Settings"]', action: 'click', duration: 1500, description: 'Let\'s check the library.' },
+  { id: 21, target: '.model-dropdown .max-h-80 > div:first-child', action: 'move', duration: 4000, description: 'Our new book is now saved and available to continue anytime.' },
+
+  // 7. Conclude
+  { id: 22, target: 'body', action: 'wait', duration: 4000, description: 'The demo is complete. Thank you for watching! 🎉' },
 ];
 
 export function DemoSimulation() {
@@ -105,7 +129,7 @@ export function DemoSimulation() {
           const rect = element.getBoundingClientRect();
           await animateCursor(rect.left + rect.width / 2, rect.top + rect.height / 2, step.duration || 1000);
         } else {
-          await wait(step.duration || 1000); // If no element, just wait
+          await wait(step.duration || 1000);
         }
         break;
       case 'click':
@@ -120,7 +144,21 @@ export function DemoSimulation() {
             await wait(step.duration || 1000);
         }
         break;
-      // Scroll action is removed from this simplified script, but logic can be added back if needed
+      case 'type':
+        if (element && step.text) {
+          const input = element as HTMLInputElement | HTMLTextAreaElement;
+          input.focus();
+          const rect = element.getBoundingClientRect();
+          await animateCursor(rect.left + 20, rect.top + rect.height / 2, 800);
+          
+          for (let i = 0; i < step.text.length; i++) {
+            if (!simulationActive.current) break;
+            input.value = step.text.substring(0, i + 1);
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+            await wait((step.duration || 2000) / step.text.length);
+          }
+        }
+        break;
       default:
         await wait(step.duration || 1000);
         break;
@@ -133,7 +171,6 @@ export function DemoSimulation() {
     setIsPlaying(true);
     setShowPlayButton(false);
 
-    // Grand entrance for the cursor from off-screen
     await wait(500);
     await animateCursor(window.innerWidth / 2, window.innerHeight / 2, 1500);
     
@@ -142,10 +179,9 @@ export function DemoSimulation() {
       await executeStep(step);
     }
 
-    // Cleanup sequence
     setCaption('Demo Complete! Thanks for watching. 🎉');
     await wait(3000);
-    await animateCursor(cursorPos.x, window.innerHeight + 100, 1500); // Animate cursor off-screen
+    await animateCursor(cursorPos.x, window.innerHeight + 100, 1500);
     
     simulationActive.current = false;
     setIsPlaying(false);
@@ -154,7 +190,6 @@ export function DemoSimulation() {
 
   }, [isPlaying, executeStep, animateCursor, cursorPos.x]);
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       simulationActive.current = false;
@@ -186,7 +221,6 @@ export function DemoSimulation() {
               filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.4))'
             }}
           >
-            {/* Custom SVG Pointer */}
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M5.233 3.233a1 1 0 0 1 1.534-.848l12 7a1 1 0 0 1 0 1.73l-12 7a1 1 0 0 1-1.534-.848V3.233Z" fill="white" stroke="#1D4ED8" strokeWidth="1.5" strokeLinejoin="round"/>
             </svg>
