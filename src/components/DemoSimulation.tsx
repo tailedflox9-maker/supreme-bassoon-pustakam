@@ -5,56 +5,57 @@ import { PlayCircle } from 'lucide-react';
 interface SimulationStep {
   id: number;
   target: string;
-  action: 'move' | 'click' | 'type' | 'wait';
+  action: 'move' | 'click' | 'type' | 'wait' | 'fake-refine';
   duration?: number;
   description?: string;
   text?: string;
 }
 
-// 🎬 SIMPLE DEMO SCRIPT - ~90 seconds
+// 🎬 DEMO SCRIPT - ~80 seconds with fake AI refinement
 const DEMO_SCRIPT: SimulationStep[] = [
   // Welcome
-  { id: 1, target: 'body', action: 'wait', duration: 2000, description: "👋 Welcome to Pustakam AI - Transform ideas into books" },
+  { id: 1, target: 'body', action: 'wait', duration: 2500, description: "👋 Welcome to Pustakam AI - Transform ideas into books" },
   
   // Create New Book
   { id: 2, target: 'button:has-text("Create New Book")', action: 'move', duration: 2000, description: "Let's create a new book from scratch" },
-  { id: 3, target: 'button:has-text("Create New Book")', action: 'click', duration: 1000, description: "Opening the creation form..." },
-  { id: 4, target: 'body', action: 'wait', duration: 1500, description: "✨ Ready to start!" },
+  { id: 3, target: 'button:has-text("Create New Book")', action: 'click', duration: 1500, description: "Opening the creation form..." },
+  { id: 4, target: 'body', action: 'wait', duration: 2000, description: "✨ Ready to start!" },
 
   // Type Idea
-  { id: 5, target: 'textarea#goal', action: 'move', duration: 1500, description: "Start with any idea - even a single sentence" },
+  { id: 5, target: 'textarea#goal', action: 'move', duration: 1800, description: "Start with any idea - even a single sentence" },
   { id: 6, target: 'textarea#goal', action: 'type', duration: 4000, text: 'Complete guide to Modern React Development', description: "Let me type a topic..." },
   { id: 7, target: 'body', action: 'wait', duration: 2000, description: "Perfect! Now let's enhance it with AI..." },
   
-  // AI Refinement
-  { id: 8, target: 'button:has-text("Refine with AI")', action: 'move', duration: 1500, description: "AI will optimize your idea and auto-fill details" },
-  { id: 9, target: 'button:has-text("Refine with AI")', action: 'click', duration: 1000, description: "🤖 AI is refining..." },
-  { id: 10, target: 'body', action: 'wait', duration: 4000, description: "✅ Form auto-filled with target audience and complexity!" },
+  // Fake AI Refinement (doesn't actually click, just simulates)
+  { id: 8, target: 'button:has-text("Refine with AI")', action: 'move', duration: 1800, description: "AI will optimize your idea and auto-fill details" },
+  { id: 9, target: 'button:has-text("Refine with AI")', action: 'fake-refine', duration: 5000, description: "🤖 AI is analyzing and refining your idea..." },
+  { id: 10, target: 'body', action: 'wait', duration: 2000, description: "✅ In real use, form gets auto-filled instantly!" },
 
   // Generate Roadmap
-  { id: 11, target: 'button:has-text("Generate Book Roadmap")', action: 'move', duration: 1500, description: "Now let's create the book structure" },
-  { id: 12, target: 'button:has-text("Generate Book Roadmap")', action: 'click', duration: 1000, description: "🔨 Building chapter-by-chapter roadmap..." },
-  { id: 13, target: 'body', action: 'wait', duration: 6000, description: "Creating 8-12 structured chapters with objectives" },
+  { id: 11, target: 'button:has-text("Generate Book Roadmap")', action: 'move', duration: 1800, description: "Now let's create the book structure" },
+  { id: 12, target: 'button:has-text("Generate Book Roadmap")', action: 'wait', duration: 1500, description: "This creates 8-12 chapters with objectives" },
+  { id: 13, target: 'button:has-text("Generate Book Roadmap")', action: 'wait', duration: 3000, description: "🔨 Each chapter has clear learning goals" },
 
   // Switch Model
-  { id: 14, target: 'header button:has(svg[class*="lucide-chevron-down"])', action: 'move', duration: 1500, description: "You can switch AI models anytime" },
-  { id: 15, target: 'header button:has(svg[class*="lucide-chevron-down"])', action: 'click', duration: 800, description: "Opening model selector..." },
-  { id: 16, target: 'body', action: 'wait', duration: 2000, description: "Supports Google, Mistral, Groq, and ZhipuAI" },
-  { id: 17, target: 'div.model-dropdown button:has-text("Mistral Small")', action: 'move', duration: 1500, description: "Let's try Mistral AI..." },
-  { id: 18, target: 'div.model-dropdown button:has-text("Mistral Small")', action: 'click', duration: 800, description: "✅ Model switched!" },
+  { id: 14, target: 'header button:has(svg[class*="lucide-chevron-down"])', action: 'move', duration: 1800, description: "You can switch AI models anytime" },
+  { id: 15, target: 'header button:has(svg[class*="lucide-chevron-down"])', action: 'click', duration: 1500, description: "Opening model selector..." },
+  { id: 16, target: 'body', action: 'wait', duration: 2500, description: "Supports Google, Mistral, Groq, and ZhipuAI" },
+  { id: 17, target: 'div.model-dropdown button:has-text("Mistral Small")', action: 'move', duration: 1800, description: "Let's try Mistral AI..." },
+  { id: 18, target: 'div.model-dropdown button:has-text("Mistral Small")', action: 'click', duration: 1500, description: "✅ Model switched successfully!" },
+  { id: 19, target: 'body', action: 'wait', duration: 1500, description: "" },
 
-  // Generate Content
-  { id: 19, target: 'button:has-text("Generate All Modules")', action: 'move', duration: 1500, description: "Now let's write the actual content" },
-  { id: 20, target: 'button:has-text("Generate All Modules")', action: 'click', duration: 1000, description: "🚀 Generating 2000-4000 words per chapter..." },
-  { id: 21, target: 'body', action: 'wait', duration: 6000, description: "📝 Live progress: word counts, streaming content, checkpoints" },
+  // Generate Content (show the button but don't click to avoid real generation)
+  { id: 20, target: 'button:has-text("Generate All Modules")', action: 'move', duration: 1800, description: "Click here to write 2000-4000 words per chapter" },
+  { id: 21, target: 'button:has-text("Generate All Modules")', action: 'wait', duration: 3000, description: "📝 Live progress with word counts & streaming content" },
+  { id: 22, target: 'body', action: 'wait', duration: 2000, description: "All progress is auto-saved - pause & resume anytime" },
 
   // Library
-  { id: 22, target: 'button[title="Library & Settings"]', action: 'move', duration: 1500, description: "All your books are saved and resumable" },
-  { id: 23, target: 'button[title="Library & Settings"]', action: 'click', duration: 800, description: "Opening library..." },
-  { id: 24, target: 'body', action: 'wait', duration: 3000, description: "📚 Pause, resume, or export anytime" },
+  { id: 23, target: 'button[title="Library & Settings"]', action: 'move', duration: 1800, description: "Access your library to see all saved books" },
+  { id: 24, target: 'button[title="Library & Settings"]', action: 'click', duration: 1500, description: "Opening library..." },
+  { id: 25, target: 'body', action: 'wait', duration: 3000, description: "📚 Export as PDF or Markdown anytime" },
   
   // Conclusion
-  { id: 25, target: 'body', action: 'wait', duration: 3000, description: "🎉 From Idea to Book in Minutes - Try it now!" },
+  { id: 26, target: 'body', action: 'wait', duration: 3000, description: "🎉 From Idea to Book in Minutes - Try it now!" },
 ];
 
 export function DemoSimulation() {
@@ -66,6 +67,7 @@ export function DemoSimulation() {
 
   const simulationActive = useRef<boolean>(false);
   const stepTimeout = useRef<number | null>(null);
+  const lastCursorPos = useRef({ x: -100, y: -100 }); // Track last position
 
   const findElement = (selector: string): HTMLElement | null => {
     try {
@@ -98,8 +100,8 @@ export function DemoSimulation() {
 
   const animateCursor = useCallback(async (targetX: number, targetY: number, duration: number) => {
     return new Promise<void>(resolve => {
-      const startX = cursorPos.x;
-      const startY = cursorPos.y;
+      const startX = lastCursorPos.current.x; // Use last position, not state
+      const startY = lastCursorPos.current.y;
       const startTime = Date.now();
 
       const frame = () => {
@@ -108,20 +110,22 @@ export function DemoSimulation() {
         const progress = Math.min(elapsed / duration, 1);
         const eased = easeInOutCubic(progress);
 
-        setCursorPos({
-          x: startX + (targetX - startX) * eased,
-          y: startY + (targetY - startY) * eased,
-        });
+        const newX = startX + (targetX - startX) * eased;
+        const newY = startY + (targetY - startY) * eased;
+
+        setCursorPos({ x: newX, y: newY });
+        lastCursorPos.current = { x: newX, y: newY }; // Update ref
 
         if (progress < 1) {
           requestAnimationFrame(frame);
         } else {
+          lastCursorPos.current = { x: targetX, y: targetY }; // Set final position
           resolve();
         }
       };
       requestAnimationFrame(frame);
     });
-  }, [cursorPos.x, cursorPos.y]);
+  }, []);
 
   const executeStep = useCallback(async (step: SimulationStep) => {
     if (!simulationActive.current) return;
@@ -130,9 +134,9 @@ export function DemoSimulation() {
     const element = findElement(step.target);
 
     // Scroll element into view with delay
-    if (element && ['move', 'click', 'type'].includes(step.action)) {
+    if (element && ['move', 'click', 'type', 'fake-refine'].includes(step.action)) {
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      await wait(1000);
+      await wait(1200); // Increased wait for scroll
     }
 
     switch (step.action) {
@@ -171,6 +175,28 @@ export function DemoSimulation() {
         }
         break;
 
+      case 'fake-refine':
+        // Show cursor on button but don't actually click
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          await animateCursor(
+            rect.left + rect.width / 2,
+            rect.top + rect.height / 2,
+            800
+          );
+          
+          // Fake click effect
+          setClickEffect(true);
+          await wait(200);
+          setClickEffect(false);
+          
+          // Wait to simulate AI processing (but don't actually call the API)
+          await wait(step.duration || 3000);
+        } else {
+          await wait(step.duration || 3000);
+        }
+        break;
+
       case 'type':
         if (element && step.text) {
           const input = element as HTMLInputElement | HTMLTextAreaElement;
@@ -202,8 +228,12 @@ export function DemoSimulation() {
     setShowPlayButton(false);
 
     // Start from center
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    lastCursorPos.current = { x: centerX, y: centerY };
+    setCursorPos({ x: centerX, y: centerY });
+    
     await wait(500);
-    await animateCursor(window.innerWidth / 2, window.innerHeight / 2, 1000);
 
     // Execute all steps
     for (const step of DEMO_SCRIPT) {
@@ -214,7 +244,7 @@ export function DemoSimulation() {
     // End
     setCaption('Thanks for watching! 🎉');
     await wait(2500);
-    await animateCursor(window.innerWidth / 2, window.innerHeight + 100, 1500);
+    await animateCursor(lastCursorPos.current.x, window.innerHeight + 100, 1500);
 
     simulationActive.current = false;
     setIsPlaying(false);
@@ -246,12 +276,13 @@ export function DemoSimulation() {
         <>
           {/* Simple Cursor */}
           <div
-            className="fixed pointer-events-none z-[10000] transition-transform duration-100"
+            className="fixed pointer-events-none z-[10000]"
             style={{
               left: `${cursorPos.x}px`,
               top: `${cursorPos.y}px`,
               transform: `translate(-12px, -12px) scale(${clickEffect ? 0.85 : 1})`,
-              filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.5))'
+              filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.5))',
+              transition: 'transform 0.1s ease-out'
             }}
           >
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -290,4 +321,3 @@ export function DemoSimulation() {
       )}
     </>
   );
-}
