@@ -5,48 +5,26 @@ import { PlayCircle } from 'lucide-react';
 interface SimulationStep {
   id: number;
   target: string;
-  action: 'move' | 'click' | 'type' | 'wait' | 'scroll';
+  action: 'move' | 'click' | 'wait' | 'scroll';
   duration?: number;
-  text?: string;
   description?: string;
   scrollAmount?: number;
 }
 
-// 🎬 UPDATED DEMO SCRIPT - Over 1 Minute, Smooth Flow
+// 🎬 UPDATED DEMO SCRIPT - Over 1 Minute, Slow & Smooth Flow
 const DEMO_SCRIPT: SimulationStep[] = [
-  // 1. Initial wait & welcome
-  { id: 1, target: 'body', action: 'wait', duration: 2000, description: "Welcome to Pustakam AI! Let's see how it works." },
-  
-  // 2. Open Library
-  { id: 2, target: 'button[title="Library & Settings"]', action: 'move', duration: 2000, description: 'All your book projects are stored in the Library.' },
-  { id: 3, target: 'button[title="Library & Settings"]', action: 'click', duration: 1000, description: 'Opening the library...' },
-  
-  // 3. Select an existing book
-  { id: 4, target: '.model-dropdown .max-h-80 > div:first-child', action: 'move', duration: 2500, description: 'Let\'s open an existing project to continue our work.' },
-  { id: 5, target: '.model-dropdown .max-h-80 > div:first-child', action: 'click', duration: 1000, description: 'Loading book details...' },
-  { id: 6, target: 'body', action: 'wait', duration: 2000, description: 'The book is ready to have its content generated.' },
-
-  // 4. Generate the Roadmap
-  { id: 7, target: 'button:has-text("Generate Book Roadmap")', action: 'move', duration: 2500, description: 'First, the AI creates a detailed chapter-by-chapter roadmap.' },
-  { id: 8, target: 'button:has-text("Generate Book Roadmap")', action: 'click', duration: 1000, description: 'Generating the book\'s structure...' },
-  { id: 9, target: 'body', action: 'wait', duration: 6000, description: 'The AI analyzes the goal to build a comprehensive learning path...' }, // Longer wait for AI
-  
-  // 5. Scroll to view the new Roadmap
-  { id: 10, target: '#main-scroll-area', action: 'scroll', scrollAmount: 500, duration: 2000, description: 'Here is the complete roadmap, ready for content generation.' },
-  { id: 11, target: 'body', action: 'wait', duration: 2000, description: 'Each module has specific objectives and time estimates.' },
-
-  // 6. Generate All Modules
-  { id: 12, target: 'button:has-text("Generate All Modules"), button:has-text("Resume Generation")', action: 'move', duration: 2500, description: 'Now, let\'s generate the content for all chapters.' },
-  { id: 13, target: 'button:has-text("Generate All Modules"), button:has-text("Resume Generation")', action: 'click', duration: 1000, description: 'Starting the AI writing process...' },
-  
-  // 7. Watch content generation progress
-  { id: 14, target: 'body', action: 'wait', duration: 8000, description: 'The AI writes the book live, with real-time progress and word counts.' }, // Longer wait
-  { id: 15, target: 'body', action: 'wait', duration: 5000, description: 'You can pause, resume, or even switch AI models if something fails.' },
-  
-  // 8. Final message
-  { id: 16, target: 'body', action: 'wait', duration: 4000, description: 'The demo is complete. Thank you for watching! 🎉' },
+  { id: 1, target: 'body', action: 'wait', duration: 2500, description: "Welcome to Pustakam AI! Let's see how it works." },
+  { id: 2, target: 'button[title="Library & Settings"]', action: 'move', duration: 3000, description: 'All your book projects are stored in the Library.' },
+  { id: 3, target: 'button[title="Library & Settings"]', action: 'click', duration: 1500, description: 'Opening the library...' },
+  { id: 4, target: '.model-dropdown .max-h-80 > div:first-child', action: 'move', duration: 3000, description: 'Let\'s open an existing project to continue our work.' },
+  { id: 5, target: '.model-dropdown .max-h-80 > div:first-child', action: 'click', duration: 1500, description: 'Loading the book details...' },
+  { id: 6, target: 'body', action: 'wait', duration: 2500, description: 'This book is ready for its content to be generated.' },
+  { id: 7, target: 'button:has-text("Generate All Modules"), button:has-text("Resume Generation")', action: 'move', duration: 3000, description: 'We\'ll instruct the AI to write all the chapters.' },
+  { id: 8, target: 'button:has-text("Generate All Modules"), button:has-text("Resume Generation")', action: 'click', duration: 1500, description: 'Starting the AI writing process...' },
+  { id: 9, target: 'body', action: 'wait', duration: 8000, description: 'The AI is now writing the book, with live progress updates.' },
+  { id: 10, target: 'body', action: 'wait', duration: 6000, description: 'You can pause, resume, or even switch AI models if needed.' },
+  { id: 11, target: 'body', action: 'wait', duration: 4000, description: 'The demo is complete. Thank you for watching! 🎉' },
 ];
-
 
 export function DemoSimulation() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -102,6 +80,7 @@ export function DemoSimulation() {
         if (progress < 1) {
           requestAnimationFrame(frame);
         } else {
+          setCursorPos({ x: targetX, y: targetY }); // Ensure final position is exact
           resolve();
         }
       };
@@ -115,9 +94,9 @@ export function DemoSimulation() {
     setCaption(step.description || '');
     const element = findElement(step.target);
 
-    if (element && (step.action === 'move' || step.action === 'click' || step.action === 'type')) {
+    if (element && ['move', 'click', 'type'].includes(step.action)) {
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      await wait(500);
+      await wait(500); // Wait for scroll to settle
     }
     
     switch (step.action) {
@@ -126,19 +105,22 @@ export function DemoSimulation() {
           const rect = element.getBoundingClientRect();
           await animateCursor(rect.left + rect.width / 2, rect.top + rect.height / 2, step.duration || 1000);
         } else {
-          await wait(step.duration || 1000);
+          await wait(step.duration || 1000); // If no element, just wait
         }
         break;
       case 'click':
         if (element) {
           const rect = element.getBoundingClientRect();
-          await animateCursor(rect.left + rect.width / 2, rect.top + rect.height / 2, step.duration ? step.duration / 2 : 500);
+          await animateCursor(rect.left + rect.width / 2, rect.top + rect.height / 2, (step.duration || 1000) * 0.7);
           setClickEffect(true);
           setTimeout(() => setClickEffect(false), 200);
           element.click();
+          await wait((step.duration || 1000) * 0.3);
+        } else {
+            await wait(step.duration || 1000);
         }
-        await wait(step.duration || 1000);
         break;
+      // Scroll action is removed from this simplified script, but logic can be added back if needed
       default:
         await wait(step.duration || 1000);
         break;
@@ -151,19 +133,19 @@ export function DemoSimulation() {
     setIsPlaying(true);
     setShowPlayButton(false);
 
-    // Grand entrance for the cursor
+    // Grand entrance for the cursor from off-screen
     await wait(500);
-    await animateCursor(window.innerWidth / 2, window.innerHeight / 2, 1200);
+    await animateCursor(window.innerWidth / 2, window.innerHeight / 2, 1500);
     
     for (const step of DEMO_SCRIPT) {
       if (!simulationActive.current) break;
       await executeStep(step);
     }
 
-    // Cleanup
+    // Cleanup sequence
     setCaption('Demo Complete! Thanks for watching. 🎉');
     await wait(3000);
-    await animateCursor(cursorPos.x, window.innerHeight + 50, 1000); // Animate cursor off-screen
+    await animateCursor(cursorPos.x, window.innerHeight + 100, 1500); // Animate cursor off-screen
     
     simulationActive.current = false;
     setIsPlaying(false);
@@ -201,17 +183,13 @@ export function DemoSimulation() {
               left: `${cursorPos.x}px`,
               top: `${cursorPos.y}px`,
               transform: `translate(-4px, -4px) scale(${clickEffect ? 0.8 : 1})`,
+              filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.4))'
             }}
           >
-            <PlayCircle 
-                size={28} 
-                className="text-blue-500" 
-                style={{ 
-                    filter: 'drop-shadow(0 3px 8px rgba(0,0,0,0.5))',
-                    strokeWidth: 2,
-                    fill: 'rgba(255, 255, 255, 0.8)'
-                }}
-            />
+            {/* Custom SVG Pointer */}
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5.233 3.233a1 1 0 0 1 1.534-.848l12 7a1 1 0 0 1 0 1.73l-12 7a1 1 0 0 1-1.534-.848V3.233Z" fill="white" stroke="#1D4ED8" strokeWidth="1.5" strokeLinejoin="round"/>
+            </svg>
           </div>
 
           {caption && (
