@@ -6,25 +6,25 @@ import { PlayCircle, MousePointer2 } from 'lucide-react';
 // Helper function for delays
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-// 🎬 NEW & IMPROVED SCRIPT BASED ON YOUR FLOW
+// 🎬 SCRIPT with adjusted durations for the new animation flow
 const DEMO_SCRIPT = [
-    { id: 1,  description: "👋 Welcome to Pustakam AI! Let's see how to create a book from an idea." },
+    { id: 1,  description: "👋 Welcome to Pustakam AI! Let's see how to create a book from an idea.", duration: 3000 },
     { id: 2,  target: 'button:has-text("Create New Book")', description: "First, we'll start a new book project." },
     { id: 3,  target: 'button:has-text("Create New Book")', action: 'click', duration: 1500 },
-    { id: 4,  target: 'textarea#goal', description: "You can start with a simple topic or a detailed paragraph." },
+    { id: 4,  target: 'textarea#goal', description: "You can start with a simple topic." },
     { id: 5,  target: 'textarea#goal', action: 'type', text: 'The Principles of Quantum Computing Explained Simply', duration: 4000, description: "Let's use 'Quantum Computing' as our topic." },
-    { id: 6,  target: 'button:has-text("Refine with AI")', description: "The AI can enhance this idea into a structured plan." },
+    { id: 6,  target: 'button:has-text("Refine with AI")', description: "The AI can enhance this into a structured plan." },
     { id: 7,  target: 'button:has-text("Refine with AI")', action: 'fake-click', duration: 3000, description: "🤖 The AI would now optimize the goal, title, and target audience..." },
     { id: 8,  target: 'button:has-text("Generate Book Roadmap")', description: "Then, it would generate a chapter-by-chapter roadmap." },
     { id: 9,  target: 'button:has-text("Generate Book Roadmap")', action: 'fake-click', duration: 3000, description: "🔨 This creates a detailed learning path automatically." },
-    { id: 10, target: 'button:has-text("Back")', description: "Let's return to the main screen to see existing books." },
+    { id: 10, target: 'button:has-text("Back")', description: "Now, let's return to the main screen." },
     { id: 11, target: 'button:has-text("Back")', action: 'click', duration: 2000 },
     { id: 12, target: 'button:has-text("View My Books")', description: "Your library is accessible right from the home screen." },
     { id: 13, target: 'button:has-text("View My Books")', action: 'click', duration: 2000 },
     { id: 14, target: 'div.grid > div:first-child', description: "Let's open a completed book." },
     { id: 15, target: 'div.grid > div:first-child', action: 'click', duration: 2000 },
     { id: 16, target: 'button:has-text("Professional PDF")', description: "Once a book is complete, you can download it as a professional PDF." },
-    { id: 17, target: 'button:has-text("Professional PDF")', action: 'move', duration: 3000 },
+    { id: 17, target: 'button:has-text("Professional PDF")', action: 'move', duration: 2500 },
     { id: 18, target: 'header button:has(svg[class*="lucide-chevron-down"])', description: "You can also switch AI models for different writing styles." },
     { id: 19, target: 'header button:has(svg[class*="lucide-chevron-down"])', action: 'click', duration: 1500 },
     { id: 20, target: 'div.model-dropdown button:has-text("Mistral Small")', description: "Let's select Mistral AI." },
@@ -34,7 +34,7 @@ const DEMO_SCRIPT = [
     { id: 24, target: 'button[title="Toggle Theme"]', description: "Finally, the interface supports both dark and light themes." },
     { id: 25, target: 'button[title="Toggle Theme"]', action: 'click', duration: 2000 },
     { id: 26, target: 'button[title="Toggle Theme"]', action: 'click', duration: 1500 },
-    { id: 27, description: "This entire interface is designed to be intuitive and powerful. Enjoy your exploration!" },
+    { id: 27, description: "This entire interface is designed to be intuitive and powerful. Enjoy your exploration!", duration: 4000 },
 ];
 
 
@@ -75,7 +75,7 @@ export function DemoSimulation() {
         if (delay > 0) await wait(delay);
     };
 
-    const moveCursor = async (coords: { x: number | string; y: number | string; }, duration: number = 1.2) => {
+    const moveCursor = async (coords: { x: number | string; y: number | string; }, duration: number = 1.0) => {
         if (!simulationRef.current) throw new Error("Simulation stopped");
         await cursorControls.start({ 
             x: coords.x, 
@@ -86,7 +86,7 @@ export function DemoSimulation() {
 
     const highlightElement = async (selector: string, padding: number = 6) => {
         if (!simulationRef.current) throw new Error("Simulation stopped");
-        await wait(100);
+        await wait(50);
         const element = findElement(selector);
         if (!element) {
             await hideHighlighter();
@@ -101,7 +101,7 @@ export function DemoSimulation() {
             height: rect.height + (padding * 2),
             opacity: 1, 
             scale: 1, 
-            transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] } 
+            transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] } 
         });
     };
 
@@ -110,18 +110,18 @@ export function DemoSimulation() {
         await highlighterControls.start({ 
             opacity: 0, 
             scale: 1.05, 
-            transition: { duration: 0.4, ease: 'easeOut' } 
+            transition: { duration: 0.3, ease: 'easeOut' } 
         });
     };
     
-    const moveCursorToElement = async (selector: string, duration: number = 1.2) => {
+    const moveCursorToElement = async (selector: string, duration: number = 1.0) => {
         if (!simulationRef.current) throw new Error("Simulation stopped");
-        await wait(100);
+        await wait(50);
         const element = findElement(selector);
         if (!element) return;
         
         element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        await wait(500);
+        await wait(400);
 
         const rect = element.getBoundingClientRect();
         await moveCursor({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }, duration);
@@ -133,7 +133,7 @@ export function DemoSimulation() {
         if (element) {
             await cursorControls.start({ scale: 0.85, transition: { duration: 0.1 } });
             element.click();
-            await wait(100); // Wait for potential UI updates
+            await wait(100);
             await cursorControls.start({ scale: 1, transition: { duration: 0.1 } });
         }
     };
@@ -167,27 +167,34 @@ export function DemoSimulation() {
                 await setCaptionWithDelay(step.description || '', 0);
                 
                 if (step.target) {
-                    await highlightElement(step.target);
                     await moveCursorToElement(step.target);
+                    await highlightElement(step.target);
+                    await wait(300); // Brief pause to see the highlight
                 }
                 
-                switch (step.action) {
-                    case 'click':
-                        if (step.target) await clickElement(step.target);
-                        break;
-                    case 'type':
-                        if (step.target && step.text) await typeInElement(step.target, step.text, step.duration || 3000);
-                        break;
-                    case 'fake-click':
-                         await cursorControls.start({ scale: 0.85, transition: { duration: 0.1 } });
-                         await wait(150);
-                         await cursorControls.start({ scale: 1, transition: { duration: 0.1 } });
-                         break;
+                // Perform the action, then immediately hide the highlighter
+                if (step.action) {
+                    switch (step.action) {
+                        case 'click':
+                            if (step.target) await clickElement(step.target);
+                            break;
+                        case 'type':
+                            if (step.target && step.text) await typeInElement(step.target, step.text, step.duration || 3000);
+                            break;
+                        case 'fake-click':
+                             await cursorControls.start({ scale: 0.85, transition: { duration: 0.1 } });
+                             await wait(150);
+                             await cursorControls.start({ scale: 1, transition: { duration: 0.1 } });
+                             break;
+                        case 'move': // move is handled by moveCursorToElement
+                             break;
+                    }
                 }
 
                 if (step.target) await hideHighlighter();
-                if (step.duration) await wait(step.duration);
-                else await wait(3000); // Default wait time
+
+                // Wait for the main duration of the step for the user to read/observe
+                await wait(step.duration || 2500); 
             }
         
         } catch (error) {
