@@ -6,7 +6,7 @@ import { PlayCircle, MousePointer2 } from 'lucide-react';
 // Helper function for delays
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-// 🎬 SCRIPT with adjusted durations for the new animation flow
+// 🎬 FINAL SCRIPT with API Key Guide & Perfect Sync
 const DEMO_SCRIPT = [
     { id: 1,  description: "👋 Welcome to Pustakam AI! Let's see how to create a book from an idea.", duration: 3000 },
     { id: 2,  target: 'button:has-text("Create New Book")', description: "First, we'll start a new book project." },
@@ -17,7 +17,7 @@ const DEMO_SCRIPT = [
     { id: 7,  target: 'button:has-text("Refine with AI")', action: 'fake-click', duration: 3000, description: "🤖 The AI would now optimize the goal, title, and target audience..." },
     { id: 8,  target: 'button:has-text("Generate Book Roadmap")', description: "Then, it would generate a chapter-by-chapter roadmap." },
     { id: 9,  target: 'button:has-text("Generate Book Roadmap")', action: 'fake-click', duration: 3000, description: "🔨 This creates a detailed learning path automatically." },
-    { id: 10, target: 'button:has-text("Back")', description: "Now, let's return to the main screen." },
+    { id: 10, target: 'button:has-text("Back")', description: "Now, let's explore the app's other features." },
     { id: 11, target: 'button:has-text("Back")', action: 'click', duration: 2000 },
     { id: 12, target: 'button:has-text("View My Books")', description: "Your library is accessible right from the home screen." },
     { id: 13, target: 'button:has-text("View My Books")', action: 'click', duration: 2000 },
@@ -25,16 +25,18 @@ const DEMO_SCRIPT = [
     { id: 15, target: 'div.grid > div:first-child', action: 'click', duration: 2000 },
     { id: 16, target: 'button:has-text("Professional PDF")', description: "Once a book is complete, you can download it as a professional PDF." },
     { id: 17, target: 'button:has-text("Professional PDF")', action: 'move', duration: 2500 },
-    { id: 18, target: 'header button:has(svg[class*="lucide-chevron-down"])', description: "You can also switch AI models for different writing styles." },
-    { id: 19, target: 'header button:has(svg[class*="lucide-chevron-down"])', action: 'click', duration: 1500 },
-    { id: 20, target: 'div.model-dropdown button:has-text("Mistral Small")', description: "Let's select Mistral AI." },
-    { id: 21, target: 'div.model-dropdown button:has-text("Mistral Small")', action: 'click', duration: 2000 },
-    { id: 22, target: 'button:has-text("Back to My Books")', action: 'click', duration: 1500 },
-    { id: 23, target: 'button:has-text("Back")', action: 'click', duration: 1500 },
-    { id: 24, target: 'button[title="Toggle Theme"]', description: "Finally, the interface supports both dark and light themes." },
-    { id: 25, target: 'button[title="Toggle Theme"]', action: 'click', duration: 2000 },
-    { id: 26, target: 'button[title="Toggle Theme"]', action: 'click', duration: 1500 },
-    { id: 27, description: "This entire interface is designed to be intuitive and powerful. Enjoy your exploration!", duration: 4000 },
+    { id: 18, target: 'button[title="Library & Settings"]', description: "To generate books, you need to add an API key in Settings." },
+    { id: 19, target: 'button[title="Library & Settings"]', action: 'click', duration: 1500 },
+    { id: 20, target: 'button:has-text("Settings")', description: "Let's open the settings menu." },
+    { id: 21, target: 'button:has-text("Settings")', action: 'click', duration: 1500 },
+    { id: 22, target: 'input[id="googleApiKey"]', description: "This is where you add your API keys. It's the first step to get started!" },
+    { id: 23, target: 'input[id="googleApiKey"]', action: 'move', duration: 2500 },
+    { id: 24, target: 'button:has-text("Cancel")', description: "Let's close this for now." },
+    { id: 25, target: 'button:has-text("Cancel")', action: 'click', duration: 1500 },
+    { id: 26, target: 'button[title="Toggle Theme"]', description: "The interface also supports both dark and light themes." },
+    { id: 27, target: 'button[title="Toggle Theme"]', action: 'click', duration: 2000 },
+    { id: 28, target: 'button[title="Toggle Theme"]', action: 'click', duration: 1500 },
+    { id: 29, description: "This entire interface is designed to be intuitive and powerful. Enjoy your exploration!", duration: 4000 },
 ];
 
 
@@ -169,14 +171,16 @@ export function DemoSimulation() {
                 if (step.target) {
                     await moveCursorToElement(step.target);
                     await highlightElement(step.target);
-                    await wait(300); // Brief pause to see the highlight
+                    await wait(300); 
                 }
                 
-                // Perform the action, then immediately hide the highlighter
                 if (step.action) {
                     switch (step.action) {
                         case 'click':
-                            if (step.target) await clickElement(step.target);
+                            if (step.target) {
+                                await hideHighlighter(); // Hide right before click
+                                await clickElement(step.target);
+                            }
                             break;
                         case 'type':
                             if (step.target && step.text) await typeInElement(step.target, step.text, step.duration || 3000);
@@ -186,14 +190,15 @@ export function DemoSimulation() {
                              await wait(150);
                              await cursorControls.start({ scale: 1, transition: { duration: 0.1 } });
                              break;
-                        case 'move': // move is handled by moveCursorToElement
+                        case 'move': 
                              break;
                     }
                 }
+                
+                if (step.target && step.action !== 'click') {
+                    await hideHighlighter();
+                }
 
-                if (step.target) await hideHighlighter();
-
-                // Wait for the main duration of the step for the user to read/observe
                 await wait(step.duration || 2500); 
             }
         
