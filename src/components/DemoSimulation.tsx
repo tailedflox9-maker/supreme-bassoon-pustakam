@@ -74,29 +74,37 @@ export function DemoSimulation() {
   const stepTimeout = useRef<number | null>(null);
   const lastCursorPos = useRef({ x: -100, y: -100 });
 
-  // ✅ FIXED: This function now correctly finds elements by text content.
+  // ✅ FIXED: This robust function correctly finds elements by standard selectors or by text content.
   const findElement = (selector: string): HTMLElement | null => {
+    // 1. Try standard CSS selector first
     try {
       const element = document.querySelector(selector) as HTMLElement;
       if (element) return element;
     } catch (e) {
-      // Not a valid standard selector, might be our custom one.
+      // Not a valid CSS selector, likely our custom :has-text one.
     }
 
+    // 2. Handle our custom :has-text selector
     if (selector.includes(':has-text')) {
       const textMatch = selector.match(/has-text\("(.+?)"\)/);
-      const targetText = textMatch ? textMatch[1] : null;
+      const targetText = textMatch ? textMatch[1].trim() : null;
 
       if (targetText) {
-        const elements = Array.from(document.querySelectorAll('button, a, div, span, h1, h2, h3, p, textarea'));
-        for (const el of elements) {
-          if (el.textContent?.trim().includes(targetText)) {
-            return el as HTMLElement;
-          }
+        // 3. Get all elements and find potential matches by exact text content
+        const allElements = Array.from(document.querySelectorAll<HTMLElement>('*'));
+        const matches = allElements.filter(el => el.textContent?.trim() === targetText);
+
+        if (matches.length > 0) {
+          // 4. Prioritize interactive elements like buttons and links
+          const interactiveMatch = matches.find(el => el.tagName === 'BUTTON' || el.tagName === 'A');
+          if (interactiveMatch) return interactiveMatch;
+          
+          // 5. Otherwise, return the first match found
+          return matches[0];
         }
       }
     }
-    
+
     console.warn(`[DemoSimulation] Could not find element with selector: "${selector}"`);
     return null;
   };
