@@ -8,7 +8,7 @@ interface SimulationStep {
   action: 'move' | 'click' | 'type' | 'wait' | 'scroll';
   duration?: number;
   text?: string;
-  description?: string;
+  description?: string; // This will now be used for the floating caption
   scrollAmount?: number;
 }
 
@@ -19,37 +19,37 @@ const DEMO_SCRIPT: SimulationStep[] = [
   
   // 2. Move to and Click "Create New Book"
   { id: 2, target: 'button:has-text("Create New Book")', action: 'move', duration: 2000, description: 'First, we start a new book project.' },
-  { id: 3, target: 'button:has-text("Create New Book")', action: 'click', duration: 500 },
+  { id: 3, target: 'button:has-text("Create New Book")', action: 'click', duration: 500, description: 'Clicking to create a new book.' },
   
   // 4. Wait for form to load
-  { id: 4, target: 'body', action: 'wait', duration: 1000 },
+  { id: 4, target: 'body', action: 'wait', duration: 1000, description: 'Loading the book creation form.' },
   
   // 5. Move to goal input and type
   { id: 5, target: 'textarea#goal', action: 'move', duration: 1500, description: 'We provide a high-level goal for the book.' },
-  { id: 6, target: 'textarea#goal', action: 'type', text: 'A comprehensive guide to React.js and modern web development', duration: 4000 },
+  { id: 6, target: 'textarea#goal', action: 'type', text: 'A comprehensive guide to React.js and modern web development', duration: 4000, description: 'Typing the book\'s core learning goal.' },
   
   // 7. Move to and Click "Refine with AI" button
   { id: 7, target: 'button:has-text("Refine with AI")', action: 'move', duration: 1500, description: 'Next, we use AI to refine the idea and auto-fill the details.' },
-  { id: 8, target: 'button:has-text("Refine with AI")', action: 'click', duration: 500 },
+  { id: 8, target: 'button:has-text("Refine with AI")', action: 'click', duration: 500, description: 'Initiating AI refinement.' },
   
   // 9. Wait for AI processing and scroll
-  { id: 9, target: 'body', action: 'wait', duration: 2500, description: 'AI is enhancing the input...' },
-  { id: 10, target: 'body', action: 'scroll', scrollAmount: 200, duration: 1000, description: 'The audience and complexity are now filled in.' },
+  { id: 9, target: 'body', action: 'wait', duration: 2500, description: 'AI is enhancing the input, structuring it for optimal generation.' },
+  { id: 10, target: '#main-scroll-area', action: 'scroll', scrollAmount: 200, duration: 1000, description: 'The target audience and complexity level are now intelligently filled in.' },
   
   // 11. Move to and Click "Generate Book Roadmap" button
-  { id: 11, target: 'button:has-text("Generate Book Roadmap")', action: 'move', duration: 1500, description: 'Now, let\'s generate the book\'s structure.' },
-  { id: 12, target: 'button:has-text("Generate Book Roadmap")', action: 'click', duration: 500 },
+  { id: 11, target: 'button:has-text("Generate Book Roadmap")', action: 'move', duration: 1500, description: 'Now, let\'s generate the book\'s comprehensive structure.' },
+  { id: 12, target: 'button:has-text("Generate Book Roadmap")', action: 'click', duration: 500, description: 'Generating the modular roadmap.' },
   
   // 13. Wait for roadmap generation and scroll
-  { id: 13, target: 'body', action: 'wait', duration: 3500, description: 'The AI is creating a detailed chapter-by-chapter roadmap...' },
-  { id: 14, target: '#main-scroll-area', action: 'scroll', scrollAmount: 500, duration: 1500, description: 'Here is the complete learning roadmap.' },
+  { id: 13, target: 'body', action: 'wait', duration: 3500, description: 'The AI is creating a detailed, chapter-by-chapter learning roadmap.' },
+  { id: 14, target: '#main-scroll-area', action: 'scroll', scrollAmount: 500, duration: 1500, description: 'Here is the complete learning roadmap, broken into clear modules.' },
   
   // 15. Move to and Click "Generate All Modules"
-  { id: 15, target: 'button:has-text("Generate All Modules")', action: 'move', duration: 2000, description: 'Finally, we start generating the content for all chapters.' },
-  { id: 16, target: 'button:has-text("Generate All Modules")', action: 'click', duration: 500 },
+  { id: 15, target: 'button:has-text("Generate All Modules")', action: 'move', duration: 2000, description: 'Finally, we instruct the AI to generate the content for all chapters.' },
+  { id: 16, target: 'button:has-text("Generate All Modules")', action: 'click', duration: 500, description: 'Starting the content generation for all modules.' },
   
   // 17. Wait to see generation progress
-  { id: 17, target: 'body', action: 'wait', duration: 5000, description: 'The AI is now writing the book, chapter by chapter, with live progress.' },
+  { id: 17, target: 'body', action: 'wait', duration: 4000, description: 'The AI is now writing the book, chapter by chapter, with live progress updates.' },
   
   // 18. Final message
   { id: 18, target: 'body', action: 'wait', duration: 3000, description: 'The demo is complete. Thank you for watching! 🎉' },
@@ -61,6 +61,7 @@ export function DemoSimulation() {
   const [currentStep, setCurrentStep] = useState(0);
   const [cursorPos, setCursorPos] = useState({ x: 100, y: 100 });
   const [isVisible, setIsVisible] = useState(true);
+  const [caption, setCaption] = useState(''); // New state for floating caption
   
   const animationRef = useRef<number>();
   const timeoutRef = useRef<number>();
@@ -92,10 +93,13 @@ export function DemoSimulation() {
   const executeStep = async (step: SimulationStep) => {
     if (!simulationRef.current) return; // Stop if simulation is halted
     
+    // Set caption before executing action
+    setCaption(step.description || '');
+
     const element = findElement(step.target);
     
     // Auto-scroll to element if it's not in view for 'move' or 'click' actions
-    if (element && (step.action === 'move' || step.action === 'click')) {
+    if (element && (step.action === 'move' || step.action === 'click' || step.action === 'type')) {
         element.scrollIntoView({ behavior: 'smooth', block: 'center' });
         await wait(500); // Give time for scroll to complete
     }
@@ -256,6 +260,7 @@ export function DemoSimulation() {
         setIsPlaying(false);
         setCurrentStep(0);
         simulationRef.current = false;
+        setCaption(''); // Clear caption at the end
     }
   };
   
@@ -278,6 +283,7 @@ export function DemoSimulation() {
     setIsPaused(false);
     setCurrentStep(0);
     setCursorPos({ x: 100, y: 100 }); // Reset cursor position
+    setCaption(''); // Clear caption
     
     if (animationRef.current) {
       cancelAnimationFrame(animationRef.current);
@@ -377,7 +383,7 @@ export function DemoSimulation() {
             </button>
           </div>
           
-          {/* Current Step Description */}
+          {/* Current Step Description (still in control panel) */}
           {currentStepData?.description && (
             <div className="mb-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
               <p className="text-blue-300 text-sm">{currentStepData.description}</p>
@@ -439,6 +445,13 @@ export function DemoSimulation() {
           </div>
         </div>
       </div>
+
+      {/* FLOATING CAPTION BOX */}
+      {caption && (
+        <div className="fixed bottom-28 left-1/2 -translate-x-1/2 bg-amber-500/80 backdrop-blur-md text-white text-sm font-semibold px-6 py-3 rounded-xl shadow-2xl border border-amber-400 max-w-md text-center animate-fade-in-up">
+          {caption}
+        </div>
+      )}
     </>
   );
 }
