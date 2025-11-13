@@ -1,4 +1,4 @@
-// src/components/TopHeader.tsx - COMPLETE FILE WITH FIXED DROPDOWNS
+// src/components/TopHeader.tsx - COMPLETE FILE WITH BLUR & MOBILE FIX
 import React, { useState, useMemo, useEffect } from 'react';
 import { Settings, Brain, Check, AlertCircle, ChevronDown, BookOpen, Trash2, Plus, Search, Clock, Sun, Moon } from 'lucide-react';
 import { APISettings, ModelProvider, BookProject } from '../types';
@@ -76,15 +76,15 @@ const modelConfig = {
     models: [{ id: 'glm-4.5-flash', name: 'GLM 4.5 Flash', description: 'Chinese AI model' }] 
   },
   groq: {
-  name: "Groq", 
-  icon: (props: { theme?: 'light' | 'dark' }) => <GroqIcon {...props} />, 
-  models: [
-    { id: 'llama-3.3-70b-versatile', name: 'Llama 3.3 70B Versatile', description: 'Powerful & versatile' },
-    { id: 'openai/gpt-oss-120b', name: 'GPT OSS 120B', description: 'Large open-source model' },
-    { id: 'openai/gpt-oss-20b', name: 'GPT OSS 20B', description: 'Medium open-source model' },
-    { id: 'moonshotai/kimi-k2-instruct-0905', name: 'Kimi K2 Instruct (0905)', description: 'Moonshot AI instruction model' },
-  ]
-}
+    name: "Groq", 
+    icon: (props: { theme?: 'light' | 'dark' }) => <GroqIcon {...props} />, 
+    models: [
+      { id: 'llama-3.3-70b-versatile', name: 'Llama 3.3 70B Versatile', description: 'Powerful & versatile' },
+      { id: 'openai/gpt-oss-120b', name: 'GPT OSS 120B', description: 'Large open-source model' },
+      { id: 'openai/gpt-oss-20b', name: 'GPT OSS 20B', description: 'Medium open-source model' },
+      { id: 'moonshotai/kimi-k2-instruct-0905', name: 'Kimi K2 Instruct (0905)', description: 'Moonshot AI instruction model' },
+    ]
+  }
 };
 
 interface TopHeaderProps {
@@ -246,7 +246,17 @@ export function TopHeader({ settings, books, currentBookId, onModelChange, onOpe
             )}
           </div>
         </div>
-        {(modelDropdownOpen || libraryOpen) && <div className="fixed inset-0 z-40" onClick={() => { setModelDropdownOpen(false); setLibraryOpen(false); }} />}
+
+        {/* ✅ NEW: Backdrop Blur Overlay */}
+        {(modelDropdownOpen || libraryOpen) && (
+          <div 
+            className="dropdown-blur-backdrop" 
+            onClick={() => { 
+              setModelDropdownOpen(false); 
+              setLibraryOpen(false); 
+            }} 
+          />
+        )}
       </header>
     </>
   );
