@@ -1,5 +1,5 @@
 // ============================================================================
-// FILE: src/App.tsx - FIXED VERSION WITH NO LAYOUT SHIFTS
+// FILE: src/App.tsx - COMPLETE VERSION WITH ENHANCED LOADING
 // ============================================================================
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Analytics } from '@vercel/analytics/react';
@@ -56,6 +56,7 @@ function App() {
     onConfirm?: () => void;
   }>({ type: 'info', title: '', message: '' });
 
+  // Helper to show custom alert dialog
   const showAlertDialog = useCallback((props: {
     type: 'info' | 'warning' | 'error' | 'success' | 'confirm';
     title: string;
@@ -70,43 +71,23 @@ function App() {
 
   const handleAlertDialogClose = useCallback(() => {
     setIsAlertDialogOpen(false);
+    // Reset props to avoid stale data in subsequent dialogs
     setAlertDialogProps({ type: 'info', title: '', message: '' });
   }, []);
 
   const { isInstallable, isInstalled, installApp, dismissInstallPrompt } = usePWA();
   
-  // ✅ FIX: Improved loading screen removal with smooth fade-out
+  // ✅ ENHANCED: useEffect to handle the loading screen without dissolve effect
   useEffect(() => {
     const loader = document.getElementById('loading-screen');
     if (loader) {
-      // Wait for DOM to be fully ready and assets loaded
-      const hideLoader = () => {
-        // Add fade-out class
+      // Set a minimum display time of 3 seconds
+      setTimeout(() => {
+        // Simply hide it without fade animation
         loader.classList.add('fade-out');
-        
-        // Remove from DOM after animation completes
-        setTimeout(() => {
-          if (loader.parentNode) {
-            loader.parentNode.removeChild(loader);
-          }
-        }, 600); // Match CSS transition duration
-      };
-
-      // Ensure minimum display time of 2 seconds
-      const minDisplayTime = setTimeout(hideLoader, 2000);
-
-      // Also wait for images to load
-      if (document.readyState === 'complete') {
-        clearTimeout(minDisplayTime);
-        setTimeout(hideLoader, 500);
-      } else {
-        window.addEventListener('load', () => {
-          clearTimeout(minDisplayTime);
-          setTimeout(hideLoader, 500);
-        });
-      }
+      }, 3000); // Minimum 3 seconds delay
     }
-  }, []);
+  }, []); // Empty dependency array ensures this runs only once when the App mounts
 
   const currentBook = useMemo(() => currentBookId ? books.find(b => b.id === currentBookId) : null, [currentBookId, books]);
   
