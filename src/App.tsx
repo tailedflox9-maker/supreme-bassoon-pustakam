@@ -1,5 +1,5 @@
 // ============================================================================
-// FILE: src/App.tsx - COMPLETE VERSION WITH ENHANCED LOADING
+// FILE: src/App.tsx - COMPLETE VERSION WITH DEMO SIMULATION
 // ============================================================================
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Analytics } from '@vercel/analytics/react';
@@ -16,6 +16,7 @@ import { BookProject, BookSession } from './types/book';
 import { generateId } from './utils/helpers';
 import { TopHeader } from './components/TopHeader';
 import { CustomAlertDialog } from './components/CustomAlertDialog';
+import { DemoSimulation } from './components/DemoSimulation'; // 🎬 1. IMPORT THE DEMO COMPONENT
 
 type AppView = 'list' | 'create' | 'detail';
 type Theme = 'light' | 'dark';
@@ -663,6 +664,9 @@ function App() {
       />
 
       <Analytics />
+      
+      {/* 🎬 2. ADD THE DEMO COMPONENT HERE (can be removed later) */}
+      <DemoSimulation />
     </div>
   );
 }
