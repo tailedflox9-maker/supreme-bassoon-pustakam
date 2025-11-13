@@ -3,18 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/white-logo.png" />
-    
-    <!-- ✅ FIX: Better mobile viewport settings to prevent layout shifts -->
-    <meta 
-      name="viewport" 
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0, user-scalable=yes"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=0.90, maximum-scale=1.0, user-scalable=no" />
     
     <!-- Primary Meta Tags -->
     <title>Pustakam: AI Book Generation Engine</title>
     <meta name="description" content="Transform ideas into structured digital books with AI. A private, local-first app for creating and analyzing content." />
 
-    <!-- Google Fonts with font-display swap to prevent FOIT -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anta&family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -48,10 +43,6 @@
     <!-- Web App Manifest -->
     <link rel="manifest" href="/manifest.json" />
     
-    <!-- ✅ FIX: Preload critical assets to prevent layout shifts -->
-    <link rel="preload" href="/white-logo.png" as="image" />
-    <link rel="preload" href="/fonts/Aptos-Mono-Bold.ttf" as="font" type="font/ttf" crossorigin />
-    
     <!-- Service Worker Registration -->
     <script>
       if ('serviceWorker' in navigator) {
@@ -66,81 +57,11 @@
         });
       }
     </script>
-
-    <!-- ✅ FIX: Inline critical CSS to prevent FOUC -->
-    <style>
-      /* Critical styles that must be inline */
-      #loading-screen {
-        position: fixed;
-        inset: 0;
-        z-index: 1000;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background-color: #050505;
-        pointer-events: all;
-        transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
-      }
-
-      #loading-screen.fade-out {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-      }
-
-      #loading-screen .logo {
-        width: 80px;
-        height: 80px;
-        min-width: 80px;
-        min-height: 80px;
-        margin-bottom: 32px;
-        object-fit: contain;
-      }
-
-      #loading-screen .spinner {
-        width: 32px;
-        height: 32px;
-        min-width: 32px;
-        min-height: 32px;
-        border: 4px solid rgba(255, 255, 255, 0.15);
-        border-top-color: #FFFFFF;
-        border-radius: 50%;
-        animation: spin 0.8s linear infinite;
-        margin-bottom: 32px;
-      }
-
-      .loading-text {
-        color: #999999;
-        font-size: 0.9rem;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        font-weight: 500;
-        min-height: 20px;
-      }
-
-      @keyframes spin {
-        to { transform: rotate(360deg); }
-      }
-
-      /* Prevent layout shift on initial load */
-      #root {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-      }
-    </style>
   </head>
   <body>
-    <!-- ✅ FIX: Loading Screen with explicit dimensions -->
+    <!-- ✅ MODIFIED: Loading Screen -->
     <div id="loading-screen">
-      <img 
-        src="/white-logo.png" 
-        alt="Pustakam Logo" 
-        class="logo"
-        width="80"
-        height="80"
-      />
+      <img src="/white-logo.png" alt="Pustakam Logo" class="logo" />
       <div class="spinner"></div>
       <p class="loading-text">Initializing AI Engine...</p>
     </div>
