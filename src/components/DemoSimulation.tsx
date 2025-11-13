@@ -11,51 +11,56 @@ interface SimulationStep {
   text?: string;
 }
 
-// 🎬 DEMO SCRIPT - ~80 seconds with fake AI refinement
+// 🎬 FIXED DEMO SCRIPT - ~90 seconds
 const DEMO_SCRIPT: SimulationStep[] = [
-  // Welcome
-  { id: 1, target: 'body', action: 'wait', duration: 2500, description: "👋 Welcome to Pustakam AI - Transform ideas into books" },
+  // 1. Welcome
+  { id: 1, target: 'body', action: 'wait', duration: 2500, description: "👋 Welcome to Pustakam AI - Let's turn an idea into a book." },
   
-  // Create New Book
-  { id: 2, target: 'button:has-text("Create New Book")', action: 'move', duration: 2000, description: "Let's create a new book from scratch" },
-  { id: 3, target: 'button:has-text("Create New Book")', action: 'click', duration: 1500, description: "Opening the creation form..." },
-  { id: 4, target: 'body', action: 'wait', duration: 2000, description: "✨ Ready to start!" },
+  // 2. Create New Book
+  { id: 2, target: 'button:has-text("Create New Book")', action: 'move', duration: 1500, description: "First, let's start a new book project." },
+  { id: 3, target: 'button:has-text("Create New Book")', action: 'click', duration: 1000, description: "Opening the creation form..." },
+  { id: 4, target: 'body', action: 'wait', duration: 1500, description: "✨ Here we define the book's core idea." },
 
-  // Type Idea
-  { id: 5, target: 'textarea#goal', action: 'move', duration: 1800, description: "Start with any idea - even a single sentence" },
-  { id: 6, target: 'textarea#goal', action: 'type', duration: 4000, text: 'Complete guide to Modern React Development', description: "Let me type a topic..." },
-  { id: 7, target: 'body', action: 'wait', duration: 2000, description: "Perfect! Now let's enhance it with AI..." },
+  // 3. Type Idea & Refine
+  { id: 5, target: 'textarea#goal', action: 'move', duration: 1800, description: "You can start with a simple topic or a detailed paragraph." },
+  { id: 6, target: 'textarea#goal', action: 'type', duration: 5000, text: 'A complete guide to Modern React Development with Hooks and State Management', description: "Let's use 'Modern React Development' as our topic." },
+  { id: 7, target: 'button:has-text("Refine with AI")', action: 'move', duration: 1800, description: "Now, let AI enhance this idea into a structured plan." },
+  { id: 8, target: 'button:has-text("Refine with AI")', action: 'fake-refine', duration: 4000, description: "🤖 AI is optimizing the goal, title, and target audience..." },
+  { id: 9, target: 'body', action: 'wait', duration: 2000, description: "✅ The form is now auto-filled with a refined plan!" },
+
+  // 4. Generate Roadmap (ACTION: This step now CLICKS the button)
+  { id: 10, target: 'button:has-text("Generate Book Roadmap")', action: 'move', duration: 1800, description: "Next, we generate the book's chapter-by-chapter roadmap." },
+  { id: 11, target: 'button:has-text("Generate Book Roadmap")', action: 'click', duration: 4000, description: "🔨 Creating a detailed learning path with 8-12 modules..." },
   
-  // Fake AI Refinement (doesn't actually click, just simulates)
-  { id: 8, target: 'button:has-text("Refine with AI")', action: 'move', duration: 1800, description: "AI will optimize your idea and auto-fill details" },
-  { id: 9, target: 'button:has-text("Refine with AI")', action: 'fake-refine', duration: 5000, description: "🤖 AI is analyzing and refining your idea..." },
-  { id: 10, target: 'body', action: 'wait', duration: 2000, description: "✅ In real use, form gets auto-filled instantly!" },
+  // 5. Book Detail View - Show Generation Button
+  { id: 12, target: 'body', action: 'wait', duration: 2500, description: "📖 Here's our book's dashboard and learning roadmap!" },
+  { id: 13, target: 'button:has-text("Generate All Modules")', action: 'move', duration: 2000, description: "Ready to write! Clicking this starts the AI generation." },
+  { id: 14, target: 'button:has-text("Generate All Modules")', action: 'wait', duration: 3500, description: "📝 It writes 2-4k words per chapter with live progress." },
+  { id: 15, target: 'body', action: 'wait', duration: 3000, description: "Progress is auto-saved, so you can pause or resume anytime." },
 
-  // Generate Roadmap
-  { id: 11, target: 'button:has-text("Generate Book Roadmap")', action: 'move', duration: 1800, description: "Now let's create the book structure" },
-  { id: 12, target: 'button:has-text("Generate Book Roadmap")', action: 'wait', duration: 1500, description: "This creates 8-12 chapters with objectives" },
-  { id: 13, target: 'button:has-text("Generate Book Roadmap")', action: 'wait', duration: 3000, description: "🔨 Each chapter has clear learning goals" },
+  // 6. Switch AI Model
+  { id: 16, target: 'header button:has(svg[class*="lucide-chevron-down"])', action: 'move', duration: 1800, description: "You can switch AI models for different writing styles." },
+  { id: 17, target: 'header button:has(svg[class*="lucide-chevron-down"])', action: 'click', duration: 1000, description: "Opening model selector..." },
+  { id: 18, target: 'body', action: 'wait', duration: 2000, description: "Supports Google, Mistral, ZhipuAI, and Groq models." },
+  { id: 19, target: 'div.model-dropdown button:has-text("Mistral Small")', action: 'move', duration: 1800, description: "Let's switch to Mistral for this book..." },
+  { id: 20, target: 'div.model-dropdown button:has-text("Mistral Small")', action: 'click', duration: 1500, description: "✅ Model switched successfully!" },
+  { id: 21, target: 'body', action: 'wait', duration: 1000, description: "" },
 
-  // Switch Model
-  { id: 14, target: 'header button:has(svg[class*="lucide-chevron-down"])', action: 'move', duration: 1800, description: "You can switch AI models anytime" },
-  { id: 15, target: 'header button:has(svg[class*="lucide-chevron-down"])', action: 'click', duration: 1500, description: "Opening model selector..." },
-  { id: 16, target: 'body', action: 'wait', duration: 2500, description: "Supports Google, Mistral, Groq, and ZhipuAI" },
-  { id: 17, target: 'div.model-dropdown button:has-text("Mistral Small")', action: 'move', duration: 1800, description: "Let's try Mistral AI..." },
-  { id: 18, target: 'div.model-dropdown button:has-text("Mistral Small")', action: 'click', duration: 1500, description: "✅ Model switched successfully!" },
-  { id: 19, target: 'body', action: 'wait', duration: 1500, description: "" },
-
-  // Generate Content (show the button but don't click to avoid real generation)
-  { id: 20, target: 'button:has-text("Generate All Modules")', action: 'move', duration: 1800, description: "Click here to write 2000-4000 words per chapter" },
-  { id: 21, target: 'button:has-text("Generate All Modules")', action: 'wait', duration: 3000, description: "📝 Live progress with word counts & streaming content" },
-  { id: 22, target: 'body', action: 'wait', duration: 2000, description: "All progress is auto-saved - pause & resume anytime" },
-
-  // Library
-  { id: 23, target: 'button[title="Library & Settings"]', action: 'move', duration: 1800, description: "Access your library to see all saved books" },
-  { id: 24, target: 'button[title="Library & Settings"]', action: 'click', duration: 1500, description: "Opening library..." },
-  { id: 25, target: 'body', action: 'wait', duration: 3000, description: "📚 Export as PDF or Markdown anytime" },
+  // 7. Navigate back to Library
+  { id: 22, target: 'button:has-text("Back to My Books")', action: 'move', duration: 1800, description: "Now, let's go back to our library." },
+  { id: 23, target: 'button:has-text("Back to My Books")', action: 'click', duration: 1500, description: "Navigating to the library view..." },
   
-  // Conclusion
-  { id: 26, target: 'body', action: 'wait', duration: 3000, description: "🎉 From Idea to Book in Minutes - Try it now!" },
+  // 8. Library View
+  { id: 24, target: 'body', action: 'wait', duration: 2500, description: "📚 All your book projects are saved here." },
+  { id: 25, target: 'div.grid > div:first-child', action: 'move', duration: 2000, description: "You can track progress, manage, and export books from here." },
+  
+  // 9. Navigate back to Home Screen
+  { id: 26, target: 'button:has-text("Back")', action: 'move', duration: 1800, description: "Let's return to the home screen." },
+  { id: 27, target: 'button:has-text("Back")', action: 'click', duration: 1500, description: "Going back to the main dashboard..." },
+
+  // 10. Conclusion
+  { id: 28, target: 'body', action: 'wait', duration: 3000, description: "🎉 From idea to a structured book in just a few clicks!" },
+  { id: 29, target: 'body', action: 'wait', duration: 3000, description: "Thanks for watching the demo. Start creating now!" },
 ];
 
 export function DemoSimulation() {
@@ -77,9 +82,9 @@ export function DemoSimulation() {
 
     if (selector.includes(':has-text')) {
       const textMatch = selector.match(/has-text\("(.+?)"\)/);
-      const text = textMatch ? textMatch[1] : '';
+      const text = textMatch ? textMatch : '';
       if (text) {
-        const elements = Array.from(document.querySelectorAll('button, a, input, textarea'));
+        const elements = Array.from(document.querySelectorAll('button, a, input, textarea, div, span, h1, h2, h3'));
         const foundElement = elements.find(el => {
           const textContent = el.textContent?.trim() || '';
           return textContent.includes(text);
