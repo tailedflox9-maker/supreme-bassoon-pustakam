@@ -5,75 +5,97 @@ import { PlayCircle } from 'lucide-react';
 interface SimulationStep {
   id: number;
   target: string;
-  action: 'move' | 'click' | 'type' | 'wait';
+  action: 'move' | 'click' | 'type' | 'wait' | 'scroll';
   duration?: number;
   description?: string;
   text?: string;
+  scrollAmount?: number;
 }
 
-// 🎬 NEW COMPREHENSIVE DEMO SCRIPT - Over 90 seconds
+// 🎬 ENHANCED WALKTHROUGH DEMO SCRIPT - ~120 seconds
 const DEMO_SCRIPT: SimulationStep[] = [
-  // 1. Welcome & Create New Book
-  { id: 1, target: 'body', action: 'wait', duration: 2500, description: "Welcome to Pustakam AI! Let's create a new book from an idea." },
-  { id: 2, target: 'button:has-text("Create New Book")', action: 'move', duration: 3000, description: 'Everything starts with the "Create New Book" button.' },
-  { id: 3, target: 'button:has-text("Create New Book")', action: 'click', duration: 1500, description: 'Navigating to the creation screen...' },
+  // === PHASE 1: WELCOME & INTRODUCTION (0-15s) ===
+  { id: 1, target: 'body', action: 'wait', duration: 3000, description: "👋 Welcome to Pustakam AI - Your Personal Book Generation Engine" },
+  { id: 2, target: 'body', action: 'wait', duration: 3500, description: "Transform any idea into a complete, structured book in minutes..." },
+  
+  // === PHASE 2: CREATE NEW BOOK (15-30s) ===
+  { id: 3, target: 'button:has-text("Create New Book")', action: 'move', duration: 2500, description: "Let's start by creating a new book from scratch" },
+  { id: 4, target: 'button:has-text("Create New Book")', action: 'wait', duration: 1500, description: "Click here to begin your book generation journey..." },
+  { id: 5, target: 'button:has-text("Create New Book")', action: 'click', duration: 800, description: "Opening the creation wizard..." },
+  { id: 6, target: 'body', action: 'wait', duration: 2000, description: "✨ The creation form is now ready" },
 
-  // 2. Fill Form & Refine with AI
-  { id: 4, target: 'textarea#goal', action: 'move', duration: 2500, description: 'We start with a simple idea or a detailed goal.' },
-  { id: 5, target: 'textarea#goal', action: 'type', duration: 5000, text: 'A complete beginner\'s guide to Quantum Computing', description: 'Let\'s create a book about Quantum Computing.' },
-  { id: 6, target: 'button:has-text("Refine with AI")', action: 'move', duration: 3000, description: 'Now, we use AI to refine the concept and fill in the details.' },
-  { id: 7, target: 'button:has-text("Refine with AI")', action: 'click', duration: 1500, description: 'The AI will suggest an audience and complexity...' },
-  { id: 8, target: 'body', action: 'wait', duration: 4000, description: '...perfect. The details are auto-filled for us.' },
+  // === PHASE 3: ENTER IDEA & AI REFINEMENT (30-55s) ===
+  { id: 7, target: 'textarea#goal', action: 'move', duration: 2000, description: "Start with any idea - even a single sentence works!" },
+  { id: 8, target: 'textarea#goal', action: 'wait', duration: 1500, description: "Let me type a simple topic..." },
+  { id: 9, target: 'textarea#goal', action: 'type', duration: 6000, text: 'Modern Web Development with React and TypeScript', description: "We'll create a comprehensive guide to React & TypeScript" },
+  { id: 10, target: 'textarea#goal', action: 'wait', duration: 2500, description: "That's all we need to start! Now let's enhance it with AI..." },
+  
+  { id: 11, target: 'button:has-text("Refine with AI")', action: 'move', duration: 2500, description: "The AI Refiner will optimize your idea and auto-fill details" },
+  { id: 12, target: 'button:has-text("Refine with AI")', action: 'wait', duration: 1000, description: "Analyzing and structuring your book concept..." },
+  { id: 13, target: 'button:has-text("Refine with AI")', action: 'click', duration: 800, description: "🤖 AI is refining your idea..." },
+  { id: 14, target: 'body', action: 'wait', duration: 4500, description: "✅ Perfect! Target audience, complexity, and preferences auto-filled" },
 
-  // 3. Generate Roadmap
-  { id: 9, target: 'button:has-text("Generate Book Roadmap")', action: 'move', duration: 3000, description: 'Next, the AI will generate a complete chapter-by-chapter roadmap.' },
-  { id: 10, target: 'button:has-text("Generate Book Roadmap")', action: 'click', duration: 1500, description: 'Generating the book\'s structure...' },
-  { id: 11, target: 'body', action: 'wait', duration: 8000, description: 'This step creates a detailed, modular learning path.' }, // Longer wait for AI
+  // === PHASE 4: SCROLL TO SEE AUTO-FILLED FORM (55-65s) ===
+  { id: 15, target: 'body', action: 'scroll', duration: 2500, scrollAmount: 200, description: "See how the form is now intelligently completed..." },
+  { id: 16, target: 'input#audience', action: 'move', duration: 2000, description: "Target audience identified automatically" },
+  { id: 17, target: 'body', action: 'scroll', duration: 2000, scrollAmount: -200, description: "Scrolling back up to generate the roadmap..." },
 
-  // 4. Switch AI Model
-  { id: 12, target: 'header button:has(svg[class*="lucide-chevron-down"])', action: 'move', duration: 3000, description: 'Before writing, we can switch the AI model for different results.' },
-  { id: 13, target: 'header button:has(svg[class*="lucide-chevron-down"])', action: 'click', duration: 1500, description: 'Opening the model selector...' },
-  { id: 14, target: 'div.model-dropdown button:has-text("Mistral Small")', action: 'move', duration: 3000, description: 'Let\'s switch from Google\'s Gemini to a Mistral model.' },
-  { id: 15, target: 'div.model-dropdown button:has-text("Mistral Small")', action: 'click', duration: 2000, description: 'Model switched successfully!' },
+  // === PHASE 5: GENERATE ROADMAP (65-80s) ===
+  { id: 18, target: 'button:has-text("Generate Book Roadmap")', action: 'move', duration: 2500, description: "Now let's create a complete chapter-by-chapter structure" },
+  { id: 19, target: 'button:has-text("Generate Book Roadmap")', action: 'wait', duration: 1500, description: "The AI will design a learning path with modules and objectives..." },
+  { id: 20, target: 'button:has-text("Generate Book Roadmap")', action: 'click', duration: 800, description: "🔨 Building your book roadmap..." },
+  { id: 21, target: 'body', action: 'wait', duration: 7000, description: "The AI is creating 8-12 structured chapters with learning objectives" },
 
-  // 5. Generate Modules
-  { id: 16, target: 'button:has-text("Generate All Modules")', action: 'move', duration: 3000, description: 'Now, let\'s generate the actual content for the entire book.' },
-  { id: 17, target: 'button:has-text("Generate All Modules")', action: 'click', duration: 1500, description: 'The AI is now writing, chapter by chapter...' },
-  { id: 18, target: 'body', action: 'wait', duration: 10000, description: 'We get live progress, word counts, and even a stream of the content as it\'s written.' },
+  // === PHASE 6: EXPLORE MODEL SELECTOR (80-95s) ===
+  { id: 22, target: 'header button:has(svg[class*="lucide-chevron-down"])', action: 'move', duration: 2500, description: "You can switch between multiple AI models anytime" },
+  { id: 23, target: 'header button:has(svg[class*="lucide-chevron-down"])', action: 'wait', duration: 1500, description: "Pustakam supports Google, Mistral, Groq, and ZhipuAI..." },
+  { id: 24, target: 'header button:has(svg[class*="lucide-chevron-down"])', action: 'click', duration: 800, description: "Opening model selector..." },
+  { id: 25, target: 'body', action: 'wait', duration: 2500, description: "Choose the AI that works best for your content" },
+  { id: 26, target: 'div.model-dropdown button:has-text("Mistral Small")', action: 'move', duration: 2000, description: "Let's try Mistral AI for faster generation..." },
+  { id: 27, target: 'div.model-dropdown button:has-text("Mistral Small")', action: 'click', duration: 800, description: "Switched to Mistral Small!" },
+  { id: 28, target: 'body', action: 'wait', duration: 2000, description: "✅ Model changed successfully" },
 
-  // 6. Show the new book in the Library
-  { id: 19, target: 'button[title="Library & Settings"]', action: 'move', duration: 3000, description: 'Even if we navigate away, our progress is saved.' },
-  { id: 20, target: 'button[title="Library & Settings"]', action: 'click', duration: 1500, description: 'Let\'s check the library.' },
-  { id: 21, target: '.model-dropdown .max-h-80 > div:first-child', action: 'move', duration: 4000, description: 'Our new book is now saved and available to continue anytime.' },
+  // === PHASE 7: GENERATE CONTENT (95-110s) ===
+  { id: 29, target: 'button:has-text("Generate All Modules")', action: 'move', duration: 2500, description: "Now let's write the actual content for all chapters" },
+  { id: 30, target: 'button:has-text("Generate All Modules")', action: 'wait', duration: 1500, description: "This will generate 2000-4000 words per chapter..." },
+  { id: 31, target: 'button:has-text("Generate All Modules")', action: 'click', duration: 800, description: "🚀 Starting content generation..." },
+  { id: 32, target: 'body', action: 'wait', duration: 8000, description: "📝 Live progress tracking: word counts, streaming content, and checkpoints" },
 
-  // 7. Conclude
-  { id: 22, target: 'body', action: 'wait', duration: 4000, description: 'The demo is complete. Thank you for watching! 🎉' },
+  // === PHASE 8: CHECK LIBRARY (110-120s) ===
+  { id: 33, target: 'button[title="Library & Settings"]', action: 'move', duration: 2500, description: "Your books are always saved and resumable" },
+  { id: 34, target: 'button[title="Library & Settings"]', action: 'click', duration: 800, description: "Opening your library..." },
+  { id: 35, target: 'body', action: 'wait', duration: 3000, description: "📚 All your books in one place - pause, resume, or export anytime" },
+  
+  // === PHASE 9: CONCLUSION (120-130s) ===
+  { id: 36, target: 'body', action: 'wait', duration: 3500, description: "🎉 That's Pustakam AI - From Idea to Book in Minutes!" },
+  { id: 37, target: 'body', action: 'wait', duration: 3500, description: "✨ Try it now and create your first AI-powered book!" },
 ];
 
 export function DemoSimulation() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 }); // Start off-screen
+  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
   const [caption, setCaption] = useState('');
   const [showPlayButton, setShowPlayButton] = useState(true);
   const [clickEffect, setClickEffect] = useState(false);
+  const [typingCursor, setTypingCursor] = useState(false);
 
   const simulationActive = useRef<boolean>(false);
   const stepTimeout = useRef<number | null>(null);
 
   const findElement = (selector: string): HTMLElement | null => {
     try {
-        let element = document.querySelector(selector) as HTMLElement;
-        if (element) return element;
+      let element = document.querySelector(selector) as HTMLElement;
+      if (element) return element;
     } catch (e) { /* Invalid selector */ }
 
     if (selector.includes(':has-text')) {
-        const textMatch = selector.match(/has-text\("(.+?)"\)/);
-        const text = textMatch ? textMatch[1] : '';
-        if (text) {
-            const elements = Array.from(document.querySelectorAll('button, a, span, h3, div'));
-            const foundElement = elements.find(el => el.textContent?.trim().includes(text));
-            return foundElement as HTMLElement | null;
-        }
+      const textMatch = selector.match(/has-text\("(.+?)"\)/);
+      const text = textMatch ? textMatch[1] : '';
+      if (text) {
+        const elements = Array.from(document.querySelectorAll('button, a, span, h3, div, input, textarea'));
+        const foundElement = elements.find(el => el.textContent?.trim().includes(text));
+        return foundElement as HTMLElement | null;
+      }
     }
     return null;
   };
@@ -81,8 +103,11 @@ export function DemoSimulation() {
   const wait = (ms: number): Promise<void> => new Promise(resolve => {
     stepTimeout.current = window.setTimeout(resolve, ms);
   });
-  
-  const easeInOutCubic = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+  // Smooth easing function
+  const easeInOutCubic = (t: number) => {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  };
 
   const animateCursor = useCallback(async (targetX: number, targetY: number, duration: number) => {
     return new Promise<void>(resolve => {
@@ -104,7 +129,6 @@ export function DemoSimulation() {
         if (progress < 1) {
           requestAnimationFrame(frame);
         } else {
-          setCursorPos({ x: targetX, y: targetY }); // Ensure final position is exact
           resolve();
         }
       };
@@ -120,47 +144,82 @@ export function DemoSimulation() {
 
     if (element && ['move', 'click', 'type'].includes(step.action)) {
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      await wait(500); // Wait for scroll to settle
+      await wait(800); // Wait for scroll
     }
-    
+
     switch (step.action) {
       case 'move':
+        setTypingCursor(false);
         if (element) {
           const rect = element.getBoundingClientRect();
-          await animateCursor(rect.left + rect.width / 2, rect.top + rect.height / 2, step.duration || 1000);
+          await animateCursor(rect.left + rect.width / 2, rect.top + rect.height / 2, step.duration || 1500);
+        } else {
+          await wait(step.duration || 1500);
+        }
+        break;
+
+      case 'click':
+        setTypingCursor(false);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          await animateCursor(rect.left + rect.width / 2, rect.top + rect.height / 2, 800);
+          setClickEffect(true);
+          setTimeout(() => setClickEffect(false), 300);
+          await wait(200);
+          element.click();
+          await wait((step.duration || 1000) - 200);
         } else {
           await wait(step.duration || 1000);
         }
         break;
-      case 'click':
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          await animateCursor(rect.left + rect.width / 2, rect.top + rect.height / 2, (step.duration || 1000) * 0.7);
-          setClickEffect(true);
-          setTimeout(() => setClickEffect(false), 200);
-          element.click();
-          await wait((step.duration || 1000) * 0.3);
-        } else {
-            await wait(step.duration || 1000);
-        }
-        break;
+
       case 'type':
         if (element && step.text) {
+          setTypingCursor(true);
           const input = element as HTMLInputElement | HTMLTextAreaElement;
           input.focus();
           const rect = element.getBoundingClientRect();
-          await animateCursor(rect.left + 20, rect.top + rect.height / 2, 800);
-          
+          await animateCursor(rect.left + 30, rect.top + rect.height / 2, 1000);
+
+          const charDelay = (step.duration || 3000) / step.text.length;
           for (let i = 0; i < step.text.length; i++) {
             if (!simulationActive.current) break;
             input.value = step.text.substring(0, i + 1);
             input.dispatchEvent(new Event('input', { bubbles: true }));
-            await wait((step.duration || 2000) / step.text.length);
+            await wait(charDelay);
           }
+          setTypingCursor(false);
         }
         break;
+
+      case 'scroll':
+        setTypingCursor(false);
+        const scrollAmount = step.scrollAmount || 0;
+        const scrollElement = document.getElementById('main-scroll-area') || document.documentElement;
+        const startScroll = scrollElement.scrollTop;
+        const targetScroll = startScroll + scrollAmount;
+        const scrollDuration = step.duration || 1500;
+        const scrollStart = Date.now();
+
+        const scrollFrame = () => {
+          if (!simulationActive.current) return;
+          const elapsed = Date.now() - scrollStart;
+          const progress = Math.min(elapsed / scrollDuration, 1);
+          const eased = easeInOutCubic(progress);
+          
+          scrollElement.scrollTop = startScroll + (scrollAmount * eased);
+
+          if (progress < 1) {
+            requestAnimationFrame(scrollFrame);
+          }
+        };
+        requestAnimationFrame(scrollFrame);
+        await wait(scrollDuration);
+        break;
+
       default:
-        await wait(step.duration || 1000);
+        setTypingCursor(false);
+        await wait(step.duration || 1500);
         break;
     }
   }, [animateCursor]);
@@ -171,24 +230,25 @@ export function DemoSimulation() {
     setIsPlaying(true);
     setShowPlayButton(false);
 
+    // Start from center
     await wait(500);
-    await animateCursor(window.innerWidth / 2, window.innerHeight / 2, 1500);
-    
+    await animateCursor(window.innerWidth / 2, window.innerHeight / 2, 1000);
+
     for (const step of DEMO_SCRIPT) {
       if (!simulationActive.current) break;
       await executeStep(step);
     }
 
-    setCaption('Demo Complete! Thanks for watching. 🎉');
-    await wait(3000);
-    await animateCursor(cursorPos.x, window.innerHeight + 100, 1500);
-    
+    // End animation
+    setCaption('Thanks for watching! 🎉');
+    await wait(2500);
+    await animateCursor(window.innerWidth / 2, window.innerHeight + 100, 1500);
+
     simulationActive.current = false;
     setIsPlaying(false);
     setShowPlayButton(true);
     setCaption('');
-
-  }, [isPlaying, executeStep, animateCursor, cursorPos.x]);
+  }, [isPlaying, executeStep, animateCursor]);
 
   useEffect(() => {
     return () => {
@@ -202,33 +262,81 @@ export function DemoSimulation() {
       {showPlayButton && (
         <button
           onClick={startSimulation}
-          className="fixed bottom-6 right-6 z-[10001] pointer-events-auto bg-blue-600 text-white px-5 py-2.5 rounded-lg shadow-2xl flex items-center gap-2 hover:bg-blue-700 transition-all group animate-fade-in-up"
+          className="fixed bottom-6 right-6 z-[10001] pointer-events-auto bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl shadow-2xl flex items-center gap-3 hover:from-blue-700 hover:to-purple-700 transition-all group animate-fade-in-up border border-white/20"
           aria-label="Start Demo Simulation"
         >
-          <PlayCircle size={20} className="group-hover:scale-110 transition-transform" />
-          <span className="font-semibold">Play Demo</span>
+          <PlayCircle size={24} className="group-hover:scale-110 transition-transform" />
+          <div className="flex flex-col items-start">
+            <span className="font-bold text-sm">Watch Demo</span>
+            <span className="text-xs opacity-90">~2 min walkthrough</span>
+          </div>
         </button>
       )}
 
       {isPlaying && (
         <>
+          {/* Enhanced Cursor */}
           <div
-            className="fixed pointer-events-none z-[10000] transition-transform duration-100"
+            className="fixed pointer-events-none z-[10000] transition-all duration-100"
             style={{
               left: `${cursorPos.x}px`,
               top: `${cursorPos.y}px`,
-              transform: `translate(-4px, -4px) scale(${clickEffect ? 0.8 : 1})`,
-              filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.4))'
+              transform: `translate(-12px, -12px) scale(${clickEffect ? 0.85 : 1})`,
+              filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.5))'
             }}
           >
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5.233 3.233a1 1 0 0 1 1.534-.848l12 7a1 1 0 0 1 0 1.73l-12 7a1 1 0 0 1-1.534-.848V3.233Z" fill="white" stroke="#1D4ED8" strokeWidth="1.5" strokeLinejoin="round"/>
-            </svg>
+            {typingCursor ? (
+              // Text cursor
+              <svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="0" width="4" height="32" fill="white" stroke="#1E40AF" strokeWidth="2"/>
+                <rect x="6" y="0" width="12" height="4" fill="white" stroke="#1E40AF" strokeWidth="2"/>
+                <rect x="6" y="28" width="12" height="4" fill="white" stroke="#1E40AF" strokeWidth="2"/>
+              </svg>
+            ) : (
+              // Pointer cursor
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path 
+                  d="M6 2L22 14L14 16L10 24L6 2Z" 
+                  fill="white" 
+                  stroke="#1E40AF" 
+                  strokeWidth="2" 
+                  strokeLinejoin="round"
+                />
+                <circle cx="14" cy="14" r="2" fill="#3B82F6" className="animate-pulse"/>
+              </svg>
+            )}
           </div>
 
+          {/* Click ripple effect */}
+          {clickEffect && (
+            <div
+              className="fixed pointer-events-none z-[9999]"
+              style={{
+                left: `${cursorPos.x}px`,
+                top: `${cursorPos.y}px`,
+              }}
+            >
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div className="w-12 h-12 rounded-full border-4 border-blue-400 animate-ping" />
+              </div>
+            </div>
+          )}
+
+          {/* Caption Box */}
           {caption && (
-            <div className="fixed bottom-24 left-1/2 -translate-x-1/2 bg-gray-900/80 backdrop-blur-md text-white text-base font-semibold px-6 py-3 rounded-xl shadow-2xl border border-white/20 max-w-lg text-center animate-fade-in-up z-[9999]">
-              {caption}
+            <div className="fixed bottom-28 left-1/2 -translate-x-1/2 max-w-2xl w-full px-4 z-[9999] animate-fade-in-up">
+              <div className="bg-gradient-to-r from-gray-900/95 to-gray-800/95 backdrop-blur-xl text-white rounded-2xl shadow-2xl border border-white/10 overflow-hidden">
+                <div className="flex items-start gap-4 p-5">
+                  <div className="flex-shrink-0 w-2 h-2 rounded-full bg-green-400 mt-2 animate-pulse" />
+                  <div className="flex-1">
+                    <p className="text-base font-semibold leading-relaxed">
+                      {caption}
+                    </p>
+                  </div>
+                </div>
+                {/* Progress bar */}
+                <div className="h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 animate-slide-in-out" />
+              </div>
             </div>
           )}
         </>
