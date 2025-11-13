@@ -12,64 +12,47 @@ interface SimulationStep {
   scrollAmount?: number;
 }
 
-// 🎬 DEMO SCRIPT - Easy to modify!
+// 🎬 DEMO SCRIPT - TRANSLATED FROM YOUR EXAMPLE
 const DEMO_SCRIPT: SimulationStep[] = [
   // 1. Start at home
-  { id: 1, target: 'body', action: 'wait', duration: 1000, description: 'Welcome to Pustakam AI' },
+  { id: 1, target: 'body', action: 'wait', duration: 1500, description: 'Welcome to Pustakam AI! Let\'s create a new book.' },
   
-  // 2. Hover over "Create New Book" button
-  { id: 2, target: 'button:has(svg)', action: 'move', duration: 2000, description: 'Let\'s create a new book' },
-  
-  // 3. Click "Create New Book"
-  { id: 3, target: 'button:has(svg)', action: 'click', duration: 500 },
+  // 2. Move to and Click "Create New Book"
+  { id: 2, target: 'button:has-text("Create New Book")', action: 'move', duration: 2000, description: 'First, we start a new book project.' },
+  { id: 3, target: 'button:has-text("Create New Book")', action: 'click', duration: 500 },
   
   // 4. Wait for form to load
   { id: 4, target: 'body', action: 'wait', duration: 1000 },
   
-  // 5. Move to goal input
-  { id: 5, target: 'textarea#goal, textarea[placeholder*="e.g."]', action: 'move', duration: 1500, description: 'Enter your learning goal' },
+  // 5. Move to goal input and type
+  { id: 5, target: 'textarea#goal', action: 'move', duration: 1500, description: 'We provide a high-level goal for the book.' },
+  { id: 6, target: 'textarea#goal', action: 'type', text: 'A comprehensive guide to React.js and modern web development', duration: 4000 },
   
-  // 6. Type in the goal field
-  { id: 6, target: 'textarea#goal, textarea[placeholder*="e.g."]', action: 'type', text: 'A comprehensive guide to React.js and modern web development', duration: 3000 },
-  
-  // 7. Move to "Refine with AI" button
-  { id: 7, target: 'button:has-text("Refine with AI")', action: 'move', duration: 1500, description: 'Use AI to refine the idea' },
-  
-  // 8. Click "Refine with AI"
+  // 7. Move to and Click "Refine with AI" button
+  { id: 7, target: 'button:has-text("Refine with AI")', action: 'move', duration: 1500, description: 'Next, we use AI to refine the idea and auto-fill the details.' },
   { id: 8, target: 'button:has-text("Refine with AI")', action: 'click', duration: 500 },
   
-  // 9. Wait for AI processing
-  { id: 9, target: 'body', action: 'wait', duration: 2000, description: 'AI is enhancing your input...' },
+  // 9. Wait for AI processing and scroll
+  { id: 9, target: 'body', action: 'wait', duration: 2500, description: 'AI is enhancing the input...' },
+  { id: 10, target: 'body', action: 'scroll', scrollAmount: 200, duration: 1000, description: 'The audience and complexity are now filled in.' },
   
-  // 10. Scroll down to see auto-filled fields
-  { id: 10, target: 'body', action: 'scroll', scrollAmount: 200, duration: 1000 },
-  
-  // 11. Move to "Generate Book Roadmap" button
-  { id: 11, target: 'button:has-text("Generate Book Roadmap")', action: 'move', duration: 1500, description: 'Generate the book structure' },
-  
-  // 12. Click "Generate Book Roadmap"
+  // 11. Move to and Click "Generate Book Roadmap" button
+  { id: 11, target: 'button:has-text("Generate Book Roadmap")', action: 'move', duration: 1500, description: 'Now, let\'s generate the book\'s structure.' },
   { id: 12, target: 'button:has-text("Generate Book Roadmap")', action: 'click', duration: 500 },
   
-  // 13. Wait for roadmap generation
-  { id: 13, target: 'body', action: 'wait', duration: 3000, description: 'Creating your book roadmap...' },
+  // 13. Wait for roadmap generation and scroll
+  { id: 13, target: 'body', action: 'wait', duration: 3500, description: 'The AI is creating a detailed chapter-by-chapter roadmap...' },
+  { id: 14, target: '#main-scroll-area', action: 'scroll', scrollAmount: 500, duration: 1500, description: 'Here is the complete learning roadmap.' },
   
-  // 14. Scroll to see roadmap
-  { id: 14, target: 'body', action: 'scroll', scrollAmount: 300, duration: 1500 },
-  
-  // 15. Hover over "Generate All Modules" button
-  { id: 15, target: 'button:has-text("Generate All Modules"), button:has-text("Resume Generation")', action: 'move', duration: 1500, description: 'Start generating chapters' },
-  
-  // 16. Click to start generation
-  { id: 16, target: 'button:has-text("Generate All Modules"), button:has-text("Resume Generation")', action: 'click', duration: 500 },
+  // 15. Move to and Click "Generate All Modules"
+  { id: 15, target: 'button:has-text("Generate All Modules")', action: 'move', duration: 2000, description: 'Finally, we start generating the content for all chapters.' },
+  { id: 16, target: 'button:has-text("Generate All Modules")', action: 'click', duration: 500 },
   
   // 17. Wait to see generation progress
-  { id: 17, target: 'body', action: 'wait', duration: 4000, description: 'AI is writing your book...' },
+  { id: 17, target: 'body', action: 'wait', duration: 5000, description: 'The AI is now writing the book, chapter by chapter, with live progress.' },
   
-  // 18. Hover over model selector
-  { id: 18, target: 'button:has(img[alt*="AI"])', action: 'move', duration: 1500, description: 'You can switch AI models anytime' },
-  
-  // 19. Final wait
-  { id: 19, target: 'body', action: 'wait', duration: 2000, description: 'Demo complete! 🎉' },
+  // 18. Final message
+  { id: 18, target: 'body', action: 'wait', duration: 3000, description: 'The demo is complete. Thank you for watching! 🎉' },
 ];
 
 export function DemoSimulation() {
@@ -81,28 +64,42 @@ export function DemoSimulation() {
   
   const animationRef = useRef<number>();
   const timeoutRef = useRef<number>();
-  
+  const simulationRef = useRef<boolean>(false); // Used to signal if simulation should continue
+
   // 🎯 Find element by selector with fallback
   const findElement = (selector: string): HTMLElement | null => {
-    // Try exact selector first
-    let element = document.querySelector(selector) as HTMLElement;
-    
-    // Fallback: Try to find by text content
-    if (!element && selector.includes(':has-text')) {
-      const text = selector.match(/has-text\("(.+?)"\)/)?.[1];
-      if (text) {
-        const buttons = Array.from(document.querySelectorAll('button'));
-        element = buttons.find(btn => btn.textContent?.includes(text)) as HTMLElement;
-      }
+    try {
+        let element = document.querySelector(selector) as HTMLElement;
+        if (element) return element;
+    } catch (e) {
+        // Fallback for complex selectors like :has-text
     }
-    
-    return element;
+
+    if (selector.includes(':has-text')) {
+        const textMatch = selector.match(/has-text\("(.+?)"\)/);
+        const text = textMatch ? textMatch[1] : '';
+        if (text) {
+            // Search buttons and general elements for text content
+            const elements = Array.from(document.querySelectorAll('button, a, label, h1, h2, h3, h4, p, span'));
+            const foundElement = elements.find(el => el.textContent?.trim().includes(text));
+            return foundElement as HTMLElement | null;
+        }
+    }
+    return null;
   };
   
   // 🎬 Execute a single step
   const executeStep = async (step: SimulationStep) => {
+    if (!simulationRef.current) return; // Stop if simulation is halted
+    
     const element = findElement(step.target);
     
+    // Auto-scroll to element if it's not in view for 'move' or 'click' actions
+    if (element && (step.action === 'move' || step.action === 'click')) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        await wait(500); // Give time for scroll to complete
+    }
+
     switch (step.action) {
       case 'move':
         if (element) {
@@ -112,12 +109,14 @@ export function DemoSimulation() {
           
           animateCursor(cursorPos.x, cursorPos.y, targetX, targetY, step.duration || 1000);
         }
+        await wait(step.duration || 1000);
         break;
         
       case 'click':
         if (element) {
           // Visual click effect
           element.style.transform = 'scale(0.95)';
+          element.style.transition = 'transform 0.1s ease-in-out';
           setTimeout(() => {
             element.style.transform = '';
             element.click();
@@ -129,11 +128,18 @@ export function DemoSimulation() {
       case 'type':
         if (element && step.text) {
           const input = element as HTMLInputElement | HTMLTextAreaElement;
+          input.focus();
           let currentText = '';
           
           for (let i = 0; i < step.text.length; i++) {
-            if (!isPlaying) break;
-            
+            if (!simulationRef.current) break; // Check again inside loop
+            // If paused, wait until resumed
+            while(isPaused) {
+                if (!simulationRef.current) break;
+                await wait(100);
+            }
+            if (!simulationRef.current) break;
+
             currentText += step.text[i];
             input.value = currentText;
             input.dispatchEvent(new Event('input', { bubbles: true }));
@@ -155,26 +161,32 @@ export function DemoSimulation() {
           const startTime = Date.now();
           
           const animateScroll = () => {
+            if (!simulationRef.current) return; // Check again inside animation frame
+            if (isPaused) { // Pause scrolling if demo is paused
+                animationRef.current = requestAnimationFrame(animateScroll);
+                return;
+            }
+
             const elapsed = Date.now() - startTime;
             const progress = Math.min(elapsed / scrollDuration, 1);
             const easeProgress = easeInOutCubic(progress);
             
-            const currentScroll = startScroll + (endScroll - startScroll) * easeProgress;
+            const currentScrollVal = startScroll + (endScroll - startScroll) * easeProgress;
             
             if (mainScroll instanceof Window) {
-              window.scrollTo(0, currentScroll);
+              window.scrollTo(0, currentScrollVal);
             } else {
-              mainScroll.scrollTop = currentScroll;
+              mainScroll.scrollTop = currentScrollVal;
             }
             
-            if (progress < 1 && isPlaying) {
-              requestAnimationFrame(animateScroll);
+            if (progress < 1) {
+              animationRef.current = requestAnimationFrame(animateScroll);
             }
           };
           
           animateScroll();
         }
-        await wait(step.duration || 1000);
+        await wait(step.duration || 1000); // Wait for scroll duration
         break;
         
       case 'wait':
@@ -188,6 +200,12 @@ export function DemoSimulation() {
     const startTime = Date.now();
     
     const animate = () => {
+      if (!simulationRef.current) return; // Check if simulation is still active
+      if (isPaused) { // Pause cursor movement if demo is paused
+          animationRef.current = requestAnimationFrame(animate);
+          return;
+      }
+
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
       
@@ -198,7 +216,7 @@ export function DemoSimulation() {
       
       setCursorPos({ x, y });
       
-      if (progress < 1 && isPlaying) {
+      if (progress < 1) {
         animationRef.current = requestAnimationFrame(animate);
       }
     };
@@ -207,7 +225,9 @@ export function DemoSimulation() {
   };
   
   // ⏱️ Helper functions
-  const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+  const wait = (ms: number) => new Promise(resolve => {
+    timeoutRef.current = window.setTimeout(resolve, ms)
+  });
   
   const easeInOutCubic = (t: number) => {
     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -215,38 +235,49 @@ export function DemoSimulation() {
   
   // 🎮 Playback controls
   const startSimulation = async () => {
+    simulationRef.current = true; // Set flag to true when starting
     setIsPlaying(true);
     setIsPaused(false);
     
     for (let i = currentStep; i < DEMO_SCRIPT.length; i++) {
-      if (!isPlaying) break;
+        if (!simulationRef.current) break; // Break if simulation was stopped
+        
+        setCurrentStep(i);
+        await executeStep(DEMO_SCRIPT[i]);
       
-      setCurrentStep(i);
-      await executeStep(DEMO_SCRIPT[i]);
-      
-      // Check if paused between steps
-      while (isPaused) {
-        await wait(100);
-      }
+        // Check if paused between steps
+        while (isPaused) {
+            if (!simulationRef.current) break;
+            await wait(100);
+        }
     }
-    
-    setIsPlaying(false);
-    setCurrentStep(0);
+
+    if (simulationRef.current) { // Only reset if not explicitly stopped
+        setIsPlaying(false);
+        setCurrentStep(0);
+        simulationRef.current = false;
+    }
   };
   
   const pauseSimulation = () => {
     setIsPaused(true);
+    setIsPlaying(false);
+    if(animationRef.current) cancelAnimationFrame(animationRef.current);
+    if(timeoutRef.current) clearTimeout(timeoutRef.current);
   };
   
   const resumeSimulation = () => {
     setIsPaused(false);
+    setIsPlaying(true);
+    startSimulation(); // Restart the loop from current step
   };
   
   const resetSimulation = () => {
+    simulationRef.current = false; // Stop current simulation loop
     setIsPlaying(false);
     setIsPaused(false);
     setCurrentStep(0);
-    setCursorPos({ x: 100, y: 100 });
+    setCursorPos({ x: 100, y: 100 }); // Reset cursor position
     
     if (animationRef.current) {
       cancelAnimationFrame(animationRef.current);
@@ -254,16 +285,23 @@ export function DemoSimulation() {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
+    // Give it a moment before restarting from scratch
+    setTimeout(() => {
+        startSimulation();
+    }, 500);
   };
   
   const closeDemo = () => {
-    resetSimulation();
+    simulationRef.current = false; // Ensure simulation loop is stopped
+    if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setIsVisible(false);
   };
   
-  // 🧹 Cleanup
+  // 🧹 Cleanup on component unmount
   useEffect(() => {
     return () => {
+      simulationRef.current = false;
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
@@ -358,13 +396,13 @@ export function DemoSimulation() {
           
           {/* Control Buttons */}
           <div className="flex items-center gap-2">
-            {!isPlaying ? (
+            {!isPlaying && !isPaused ? (
               <button
                 onClick={startSimulation}
                 className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-500 hover:bg-blue-600 rounded-lg text-white font-semibold transition-all"
               >
                 <Play className="w-4 h-4" />
-                {currentStep > 0 ? 'Resume' : 'Start Demo'}
+                Start Demo
               </button>
             ) : isPaused ? (
               <button
@@ -396,7 +434,7 @@ export function DemoSimulation() {
           {/* Recording Tip */}
           <div className="mt-4 pt-4 border-t border-white/10">
             <p className="text-xs text-gray-400 text-center">
-              💡 <strong className="text-white">Tip:</strong> Use OBS or screen recorder to capture this demo
+              💡 <strong className="text-white">Tip:</strong> Use OBS or a screen recorder to capture this demo.
             </p>
           </div>
         </div>
