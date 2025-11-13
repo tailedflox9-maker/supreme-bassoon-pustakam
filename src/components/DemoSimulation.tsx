@@ -72,26 +72,32 @@ export function DemoSimulation() {
 
   const simulationActive = useRef<boolean>(false);
   const stepTimeout = useRef<number | null>(null);
-  const lastCursorPos = useRef({ x: -100, y: -100 }); // Track last position
+  const lastCursorPos = useRef({ x: -100, y: -100 });
 
+  // ✅ FIXED: This function now correctly finds elements by text content.
   const findElement = (selector: string): HTMLElement | null => {
     try {
-      let element = document.querySelector(selector) as HTMLElement;
+      const element = document.querySelector(selector) as HTMLElement;
       if (element) return element;
-    } catch (e) { /* Invalid selector */ }
+    } catch (e) {
+      // Not a valid standard selector, might be our custom one.
+    }
 
     if (selector.includes(':has-text')) {
       const textMatch = selector.match(/has-text\("(.+?)"\)/);
-      const text = textMatch ? textMatch : '';
-      if (text) {
-        const elements = Array.from(document.querySelectorAll('button, a, input, textarea, div, span, h1, h2, h3'));
-        const foundElement = elements.find(el => {
-          const textContent = el.textContent?.trim() || '';
-          return textContent.includes(text);
-        });
-        return foundElement as HTMLElement | null;
+      const targetText = textMatch ? textMatch[1] : null;
+
+      if (targetText) {
+        const elements = Array.from(document.querySelectorAll('button, a, div, span, h1, h2, h3, p, textarea'));
+        for (const el of elements) {
+          if (el.textContent?.trim().includes(targetText)) {
+            return el as HTMLElement;
+          }
+        }
       }
     }
+    
+    console.warn(`[DemoSimulation] Could not find element with selector: "${selector}"`);
     return null;
   };
 
@@ -105,7 +111,7 @@ export function DemoSimulation() {
 
   const animateCursor = useCallback(async (targetX: number, targetY: number, duration: number) => {
     return new Promise<void>(resolve => {
-      const startX = lastCursorPos.current.x; // Use last position, not state
+      const startX = lastCursorPos.current.x;
       const startY = lastCursorPos.current.y;
       const startTime = Date.now();
 
@@ -119,12 +125,12 @@ export function DemoSimulation() {
         const newY = startY + (targetY - startY) * eased;
 
         setCursorPos({ x: newX, y: newY });
-        lastCursorPos.current = { x: newX, y: newY }; // Update ref
+        lastCursorPos.current = { x: newX, y: newY };
 
         if (progress < 1) {
           requestAnimationFrame(frame);
         } else {
-          lastCursorPos.current = { x: targetX, y: targetY }; // Set final position
+          lastCursorPos.current = { x: targetX, y: targetY };
           resolve();
         }
       };
@@ -138,10 +144,9 @@ export function DemoSimulation() {
     setCaption(step.description || '');
     const element = findElement(step.target);
 
-    // Scroll element into view with delay
     if (element && ['move', 'click', 'type', 'fake-refine'].includes(step.action)) {
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      await wait(1200); // Increased wait for scroll
+      await wait(1200);
     }
 
     switch (step.action) {
@@ -167,12 +172,10 @@ export function DemoSimulation() {
             800
           );
           
-          // Click effect
           setClickEffect(true);
           await wait(200);
           setClickEffect(false);
           
-          // Actually click the element
           element.click();
           await wait((step.duration || 1000) - 200);
         } else {
@@ -181,7 +184,6 @@ export function DemoSimulation() {
         break;
 
       case 'fake-refine':
-        // Show cursor on button but don't actually click
         if (element) {
           const rect = element.getBoundingClientRect();
           await animateCursor(
@@ -190,12 +192,10 @@ export function DemoSimulation() {
             800
           );
           
-          // Fake click effect
           setClickEffect(true);
           await wait(200);
           setClickEffect(false);
           
-          // Wait to simulate AI processing (but don't actually call the API)
           await wait(step.duration || 3000);
         } else {
           await wait(step.duration || 3000);
@@ -209,7 +209,6 @@ export function DemoSimulation() {
           const rect = element.getBoundingClientRect();
           await animateCursor(rect.left + 30, rect.top + rect.height / 2, 1000);
 
-          // Type character by character
           const charDelay = (step.duration || 3000) / step.text.length;
           for (let i = 0; i < step.text.length; i++) {
             if (!simulationActive.current) break;
@@ -232,7 +231,6 @@ export function DemoSimulation() {
     setIsPlaying(true);
     setShowPlayButton(false);
 
-    // Start from center
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
     lastCursorPos.current = { x: centerX, y: centerY };
@@ -240,13 +238,11 @@ export function DemoSimulation() {
     
     await wait(500);
 
-    // Execute all steps
     for (const step of DEMO_SCRIPT) {
       if (!simulationActive.current) break;
       await executeStep(step);
     }
 
-    // End
     setCaption('Thanks for watching! 🎉');
     await wait(2500);
     await animateCursor(lastCursorPos.current.x, window.innerHeight + 100, 1500);
@@ -255,7 +251,7 @@ export function DemoSimulation() {
     setIsPlaying(false);
     setShowPlayButton(true);
     setCaption('');
-  }, [isPlaying, executeStep, animateCursor]);
+  }, [isPlaying, executeStep]);
 
   useEffect(() => {
     return () => {
@@ -279,7 +275,6 @@ export function DemoSimulation() {
 
       {isPlaying && (
         <>
-          {/* Simple Cursor */}
           <div
             className="fixed pointer-events-none z-[10000]"
             style={{
@@ -301,7 +296,6 @@ export function DemoSimulation() {
             </svg>
           </div>
 
-          {/* Click Effect */}
           {clickEffect && (
             <div
               className="fixed pointer-events-none z-[9999]"
@@ -316,7 +310,6 @@ export function DemoSimulation() {
             </div>
           )}
 
-          {/* Caption */}
           {caption && (
             <div className="fixed bottom-24 left-1/2 -translate-x-1/2 bg-gray-900/90 backdrop-blur-md text-white text-base font-semibold px-6 py-3 rounded-xl shadow-2xl border border-white/20 max-w-lg text-center animate-fade-in-up z-[9999]">
               {caption}
