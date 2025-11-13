@@ -246,7 +246,15 @@ export function TopHeader({ settings, books, currentBookId, onModelChange, onOpe
             )}
           </div>
         </div>
-        {(modelDropdownOpen || libraryOpen) && <div className="fixed inset-0 z-40" onClick={() => { setModelDropdownOpen(false); setLibraryOpen(false); }} />}
+        {(modelDropdownOpen || libraryOpen) && (
+          <div
+            className="fixed inset-0 z-40 bg-black/10 backdrop-blur-sm"
+            onClick={() => {
+              setModelDropdownOpen(false);
+              setLibraryOpen(false);
+            }}
+          />
+        )}
       </header>
     </>
   );
