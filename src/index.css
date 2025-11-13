@@ -963,3 +963,129 @@ article a:hover {
 .reading-floating-btn:nth-child(2) {
   animation-delay: 0.1s;
 }
+
+
+/* src/index.css - ADD THESE NEW STYLES AT THE END */
+
+/* ============================================================================
+   DROPDOWN BLUR BACKDROP - SOFT FOCUS EFFECT
+   ============================================================================ */
+
+.dropdown-blur-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40; /* Below dropdown (z-50) but above content */
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Light theme backdrop */
+.light .dropdown-blur-backdrop {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* ============================================================================
+   MOBILE DROPDOWN POSITIONING FIX
+   ============================================================================ */
+
+/* On mobile, ensure dropdown is properly positioned from the right */
+@media (max-width: 768px) {
+  .model-dropdown {
+    right: 0;
+    left: auto;
+    max-width: calc(100vw - 2rem);
+    width: 90vw;
+  }
+  
+  /* Ensure model selector dropdown doesn't overflow on small screens */
+  .model-dropdown .p-3 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  
+  /* Make model items more compact on mobile */
+  .model-dropdown button {
+    padding: 0.625rem;
+  }
+  
+  /* Adjust text sizes for better mobile readability */
+  .model-dropdown .text-sm {
+    font-size: 0.8125rem;
+  }
+  
+  .model-dropdown .text-xs {
+    font-size: 0.6875rem;
+  }
+}
+
+/* For very small screens (320px-480px) */
+@media (max-width: 480px) {
+  .model-dropdown {
+    width: calc(100vw - 1.5rem);
+    max-height: 70vh;
+  }
+  
+  /* Ensure icons don't take too much space */
+  .model-dropdown .w-5 {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  /* Compact header section */
+  .model-dropdown .flex.items-center.gap-2\\.5 {
+    gap: 0.5rem;
+  }
+}
+
+/* ============================================================================
+   DROPDOWN ANIMATION & FOCUS IMPROVEMENTS
+   ============================================================================ */
+
+/* Smooth entry animation */
+@keyframes dropdownSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.model-dropdown {
+  animation: dropdownSlideIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced focus states for accessibility */
+.model-dropdown button:focus-visible {
+  outline: 2px solid var(--color-accent-primary);
+  outline-offset: 2px;
+}
+
+/* Improve touch targets on mobile */
+@media (max-width: 768px) {
+  .model-dropdown button {
+    min-height: 44px; /* iOS minimum touch target */
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* ============================================================================
+   PREVENT BODY SCROLL WHEN DROPDOWN IS OPEN (OPTIONAL)
+   ============================================================================ */
+
+/* Add this class to body when dropdown opens for better mobile UX */
+body.dropdown-open {
+  overflow: hidden;
+}
+
+/* On desktop, we don't want to prevent scroll */
+@media (min-width: 769px) {
+  body.dropdown-open {
+    overflow: auto;
+  }
+}
