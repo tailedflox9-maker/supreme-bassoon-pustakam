@@ -6,29 +6,35 @@ import { PlayCircle, MousePointer2 } from 'lucide-react';
 // Helper function for delays
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-// 🎬 NEW & IMPROVED DEMO SCRIPT WITH FAKE ACTIONS
+// 🎬 NEW & IMPROVED SCRIPT BASED ON YOUR FLOW
 const DEMO_SCRIPT = [
     { id: 1,  description: "👋 Welcome to Pustakam AI! Let's see how to create a book from an idea." },
     { id: 2,  target: 'button:has-text("Create New Book")', description: "First, we'll start a new book project." },
     { id: 3,  target: 'button:has-text("Create New Book")', action: 'click', duration: 1500 },
     { id: 4,  target: 'textarea#goal', description: "You can start with a simple topic or a detailed paragraph." },
-    { id: 5,  target: 'textarea#goal', action: 'type', text: 'A complete guide to Modern React Development', duration: 4000, description: "Let's use 'Modern React Development' as our topic." },
-    { id: 6,  target: 'button:has-text("Refine with AI")', description: "Now, let's use the AI to enhance this idea into a structured plan." },
+    { id: 5,  target: 'textarea#goal', action: 'type', text: 'The Principles of Quantum Computing Explained Simply', duration: 4000, description: "Let's use 'Quantum Computing' as our topic." },
+    { id: 6,  target: 'button:has-text("Refine with AI")', description: "The AI can enhance this idea into a structured plan." },
     { id: 7,  target: 'button:has-text("Refine with AI")', action: 'fake-click', duration: 3000, description: "🤖 The AI would now optimize the goal, title, and target audience..." },
-    { id: 8,  target: 'button:has-text("Generate Book Roadmap")', description: "Next, we would generate the book's chapter-by-chapter roadmap." },
-    { id: 9,  target: 'button:has-text("Generate Book Roadmap")', action: 'fake-click', duration: 4000, description: "🔨 This creates a detailed learning path with 8-12 modules automatically." },
-    { id: 10, target: 'button:has-text("Back")', description: "Since this is a demo, let's go back to the main screen." },
+    { id: 8,  target: 'button:has-text("Generate Book Roadmap")', description: "Then, it would generate a chapter-by-chapter roadmap." },
+    { id: 9,  target: 'button:has-text("Generate Book Roadmap")', action: 'fake-click', duration: 3000, description: "🔨 This creates a detailed learning path automatically." },
+    { id: 10, target: 'button:has-text("Back")', description: "Let's return to the main screen to see existing books." },
     { id: 11, target: 'button:has-text("Back")', action: 'click', duration: 2000 },
-    { id: 12, target: 'button[title="Library & Settings"]', description: "All your books and settings are accessible from the top right." },
-    { id: 13, target: 'button[title="Library & Settings"]', action: 'click', duration: 2500, description: "From here, you can search your library or create a new book." },
-    { id: 14, target: 'button:has-text("Settings")', description: "Let's quickly look at the settings." },
-    { id: 15, target: 'button:has-text("Settings")', action: 'click', duration: 3000, description: "Here you can add your API keys and manage your data." },
-    { id: 16, target: 'button[aria-label="Close"]', action: 'click', duration: 1500 },
-    { id: 17, target: 'button[title="Toggle Theme"]', description: "You can also switch between light and dark themes." },
-    { id: 18, target: 'button[title="Toggle Theme"]', action: 'click', duration: 2500 },
-    { id: 19, target: 'button[title="Toggle Theme"]', action: 'click', duration: 1000 },
-    { id: 20, description: "🎉 From idea to a structured book in just a few clicks!" },
-    { id: 21, description: "Thanks for watching the demo. Start creating now!" },
+    { id: 12, target: 'button:has-text("View My Books")', description: "Your library is accessible right from the home screen." },
+    { id: 13, target: 'button:has-text("View My Books")', action: 'click', duration: 2000 },
+    { id: 14, target: 'div.grid > div:first-child', description: "Let's open a completed book." },
+    { id: 15, target: 'div.grid > div:first-child', action: 'click', duration: 2000 },
+    { id: 16, target: 'button:has-text("Professional PDF")', description: "Once a book is complete, you can download it as a professional PDF." },
+    { id: 17, target: 'button:has-text("Professional PDF")', action: 'move', duration: 3000 },
+    { id: 18, target: 'header button:has(svg[class*="lucide-chevron-down"])', description: "You can also switch AI models for different writing styles." },
+    { id: 19, target: 'header button:has(svg[class*="lucide-chevron-down"])', action: 'click', duration: 1500 },
+    { id: 20, target: 'div.model-dropdown button:has-text("Mistral Small")', description: "Let's select Mistral AI." },
+    { id: 21, target: 'div.model-dropdown button:has-text("Mistral Small")', action: 'click', duration: 2000 },
+    { id: 22, target: 'button:has-text("Back to My Books")', action: 'click', duration: 1500 },
+    { id: 23, target: 'button:has-text("Back")', action: 'click', duration: 1500 },
+    { id: 24, target: 'button[title="Toggle Theme"]', description: "Finally, the interface supports both dark and light themes." },
+    { id: 25, target: 'button[title="Toggle Theme"]', action: 'click', duration: 2000 },
+    { id: 26, target: 'button[title="Toggle Theme"]', action: 'click', duration: 1500 },
+    { id: 27, description: "This entire interface is designed to be intuitive and powerful. Enjoy your exploration!" },
 ];
 
 
@@ -181,7 +187,7 @@ export function DemoSimulation() {
 
                 if (step.target) await hideHighlighter();
                 if (step.duration) await wait(step.duration);
-                else await wait(2000); // Default wait time
+                else await wait(3000); // Default wait time
             }
         
         } catch (error) {
@@ -207,10 +213,10 @@ export function DemoSimulation() {
                     exit={{ opacity: 0, y: 20 }}
                     onClick={runSimulation}
                     className="fixed bottom-6 right-6 z-[10001] pointer-events-auto bg-blue-600 text-white px-5 py-2.5 rounded-lg shadow-2xl flex items-center gap-2 hover:bg-blue-700 transition-all group"
-                    aria-label="Play Demo Simulation"
+                    aria-label="Play Walkthrough"
                 >
                     <PlayCircle size={20} className="group-hover:scale-110 transition-transform" />
-                    <span className="font-semibold">Play Demo</span>
+                    <span className="font-semibold">Play Walkthrough</span>
                 </motion.button>
             )}
             </AnimatePresence>
@@ -247,7 +253,7 @@ export function DemoSimulation() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -20, scale: 0.95 }}
                         transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-                        className="fixed bottom-24 left-1/2 -translate-x-1/2 bg-blue-600/80 backdrop-blur-md text-white text-base font-semibold px-6 py-3 rounded-xl shadow-2xl border border-blue-400 max-w-lg text-center"
+                        className="fixed bottom-24 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-md text-white text-base font-semibold px-6 py-3 rounded-xl shadow-2xl border border-white/20 max-w-lg text-center"
                     >
                         {caption}
                     </motion.div>
