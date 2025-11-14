@@ -6,7 +6,7 @@ import { PlayCircle, MousePointer2 } from 'lucide-react';
 // Helper function for delays
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-// 🎬 FINAL SCRIPT with API Key Guide & Perfect Sync
+// 🎬 FINAL SCRIPT with Corrected Navigation, API Guide, and Better Captions
 const DEMO_SCRIPT = [
     { id: 1,  description: "👋 Welcome to Pustakam AI! Let's see how to create a book from an idea.", duration: 3000 },
     { id: 2,  target: 'button:has-text("Create New Book")', description: "First, we'll start a new book project." },
@@ -31,14 +31,15 @@ const DEMO_SCRIPT = [
     { id: 21, target: 'button:has-text("Settings")', action: 'click', duration: 1500 },
     { id: 22, target: 'input[id="googleApiKey"]', description: "This is where you add your API keys. It's the first step to get started!" },
     { id: 23, target: 'input[id="googleApiKey"]', action: 'move', duration: 2500 },
-    { id: 24, target: 'button:has-text("Cancel")', description: "Let's close this for now." },
+    { id: 24, target: 'button:has-text("Cancel")', description: "Now we'll return to the home screen." },
     { id: 25, target: 'button:has-text("Cancel")', action: 'click', duration: 1500 },
-    { id: 26, target: 'button[title="Toggle Theme"]', description: "The interface also supports both dark and light themes." },
-    { id: 27, target: 'button[title="Toggle Theme"]', action: 'click', duration: 2000 },
-    { id: 28, target: 'button[title="Toggle Theme"]', action: 'click', duration: 1500 },
-    { id: 29, description: "This entire interface is designed to be intuitive and powerful. Enjoy your exploration!", duration: 4000 },
+    { id: 26, target: 'button:has-text("Back to My Books")', action: 'click', duration: 1500 },
+    { id: 27, target: 'button:has-text("Back")', action: 'click', duration: 1500 },
+    { id: 28, target: 'button[title="Toggle Theme"]', description: "The interface also supports both dark and light themes." },
+    { id: 29, target: 'button[title="Toggle Theme"]', action: 'click', duration: 2000 },
+    { id: 30, target: 'button[title="Toggle Theme"]', action: 'click', duration: 1500 },
+    { id: 31, description: "That concludes our quick tour. Now it's your turn to bring ideas to life!", duration: 4000 },
 ];
-
 
 export function DemoSimulation() {
     const [isSimulating, setIsSimulating] = useState(false);
@@ -178,7 +179,7 @@ export function DemoSimulation() {
                     switch (step.action) {
                         case 'click':
                             if (step.target) {
-                                await hideHighlighter(); // Hide right before click
+                                await hideHighlighter();
                                 await clickElement(step.target);
                             }
                             break;
@@ -265,7 +266,7 @@ export function DemoSimulation() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -20, scale: 0.95 }}
                         transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-                        className="fixed bottom-24 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-md text-white text-base font-semibold px-6 py-3 rounded-xl shadow-2xl border border-white/20 max-w-lg text-center"
+                        className="fixed bottom-20 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-md text-white text-sm font-medium px-4 py-2 rounded-lg shadow-2xl border border-white/10 max-w-md text-center"
                     >
                         {caption}
                     </motion.div>
